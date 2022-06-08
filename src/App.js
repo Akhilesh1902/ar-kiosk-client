@@ -1,23 +1,19 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import Images from './components/Images';
+import UI from './components/UI';
+import Video from './components/Video';
 
 function App() {
+  const [image, setImage] = useState(null);
+  const [vid, setVid] = useState(false);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <div className='videoContainer' style={{ backgroundColor: 'black' }}>
+        <Video vid={vid} />
+        <Images image={image} />
+      </div>
+      <UI setImage={setImage} setVid={setVid} vid={vid} />
     </div>
   );
 }
