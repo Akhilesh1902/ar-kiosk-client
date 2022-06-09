@@ -13,7 +13,7 @@ function App() {
         <Video vid={vid} />
         <Images image={image} />
       </div>
-      <UI setImage={setImage} setVid={setVid} vid={vid} />
+      <UI setImage={setImage} image={image} setVid={setVid} vid={vid} />
     </div>
   );
 }

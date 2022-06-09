@@ -3,10 +3,7 @@ import { useRef, useEffect } from 'react';
 
 const Video = ({ vid }) => {
   const userVid = useRef();
-  //   const [vStream, setVStream] = useState();
-
   useEffect(() => {
-    console.log('changing videosdf');
     if (!vid) {
       if (userVid.current.srcObject) {
         userVid.current.srcObject = null;
@@ -21,9 +18,7 @@ const Video = ({ vid }) => {
       audio: false,
       video: true,
     });
-    console.log(userVid.current.srcObject);
     userVid.current.srcObject = stream;
-    console.log(stream);
   };
 
   return <video ref={userVid} id='userCam' autoPlay playsInline></video>;
