@@ -82,7 +82,13 @@ const UI = ({ setImage, setVid, image, vid }) => {
           <AiFillCamera color={modal ? '#c2968a' : '#8dc7a2'} />
         </button>
       </div>
-      {modal ? <EmailModal screenShot={screenShot} /> : null}
+      {modal ? (
+        <EmailModal
+          screenShot={screenShot}
+          setPCanvas={setPCanvas}
+          setModal={setModal}
+        />
+      ) : null}
       {!vid ? (
         <>
           <h1>Select Photo</h1>
@@ -107,7 +113,7 @@ const UI = ({ setImage, setVid, image, vid }) => {
   );
 };
 
-const EmailModal = ({ screenShot }) => {
+const EmailModal = ({ screenShot, setPCanvas, setModal }) => {
   // console.log(screenShot);
   const [userEmail, setUserEmail] = useState('');
   const handleEmailSubmission = (e) => {
@@ -118,6 +124,9 @@ const EmailModal = ({ screenShot }) => {
     }
     console.log(screenShot);
     // use smtpjs to send emails
+    // socket.emit('send_image', { screenShot, userEmail });
+    setModal(false);
+    setPCanvas(null);
   };
 
   // function sendEmail() {
