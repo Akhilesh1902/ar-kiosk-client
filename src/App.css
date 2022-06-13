@@ -16,6 +16,8 @@
   overflow: hidden;
 }
 #userCam {
+  height: 100%;
+  border: 2px solid green;
   object-fit: cover;
 }
 
