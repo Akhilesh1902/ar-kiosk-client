@@ -1,22 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillCamera, AiFillVideoCamera } from 'react-icons/ai';
 import html2canvas from 'html2canvas';
+import { io } from 'socket.io-client';
 
-const UI = ({ setImage, setVid, image, vid }) => {
+const UI = ({ setImage, setVid, image, userVid, vid }) => {
   // const [userInput, setUserInput] = useState('');
   const [allImages, setAllImages] = useState([]);
   const [screenShot, setScreenShot] = useState();
   const [pCanvas, setPCanvas] = useState(false);
   const [modal, setModal] = useState(false);
 
+  const SERVER_URL = 'http://localhost:3030/';
+
+  let socket;
+
   useEffect(() => {
+    socket = io.connect(SERVER_URL);
+    console.log('here');
     const getAllImage = async () => {
-      const allImg = await fetch('http://localhost:2020/images');
+      // debugger;
+      const allImg = await fetch('http://localhost:3030/images');
+      console.log(allImg);
+      // debugger;
       const data = await allImg.json();
+      console.log(data);
       setAllImages(data);
     };
-    getAllImage();
+    getAllImage().catch((err) => {
+      console.log(err);
+    });
   }, []);
+
+  socket?.on('images_updated', () => {
+    // getAllImage();
+    console.log('here');
+  });
 
   const handleCapture = async () => {
     if (!vid) {
@@ -163,7 +181,7 @@ const EmailModal = ({ screenShot, setPCanvas, setModal }) => {
 };
 
 const ImageGrid = ({ allImages, setImage }) => {
-  const URL = 'http://localhost:2020';
+  const URL = 'http://localhost:3030';
   const imageClick = (e) => {
     setImage(e.target.src);
   };
