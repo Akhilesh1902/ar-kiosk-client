@@ -3,36 +3,39 @@ import { AiFillCamera, AiFillVideoCamera } from 'react-icons/ai';
 import html2canvas from 'html2canvas';
 import { io } from 'socket.io-client';
 
-const UI = ({ setImage, setVid, image, userVid, vid }) => {
+const UI = ({ setImage, setVid, image, userVid, socket, vid }) => {
   // const [userInput, setUserInput] = useState('');
   const [allImages, setAllImages] = useState([]);
   const [screenShot, setScreenShot] = useState();
   const [pCanvas, setPCanvas] = useState(false);
   const [modal, setModal] = useState(false);
 
-  const SERVER_URL = 'http://localhost:3030/';
+  const SERVER_URL = 'http://localhost:3030';
 
-  let socket;
+  // let socket;
+
+  const getAllImage = async () => {
+    // debugger;
+    const allImg = await fetch(`${SERVER_URL}/images`);
+    console.log(allImg);
+    // debugger;
+    const data = await allImg.json();
+    console.log(data);
+    setAllImages(data);
+  };
 
   useEffect(() => {
-    socket = io.connect(SERVER_URL);
+    // if (!socket) socket = io.connect(SERVER_URL);
     console.log('here');
-    const getAllImage = async () => {
-      // debugger;
-      const allImg = await fetch('http://localhost:3030/images');
-      console.log(allImg);
-      // debugger;
-      const data = await allImg.json();
-      console.log(data);
-      setAllImages(data);
-    };
+
     getAllImage().catch((err) => {
       console.log(err);
     });
   }, []);
 
   socket?.on('images_updated', () => {
-    // getAllImage();
+    console.log('here');
+    getAllImage();
     console.log('here');
   });
 
@@ -110,7 +113,11 @@ const UI = ({ setImage, setVid, image, userVid, vid }) => {
       {!vid ? (
         <>
           <h1>Select Photo</h1>
-          <ImageGrid allImages={allImages} setImage={setImage} />
+          <ImageGrid
+            allImages={allImages}
+            SERVER_URL={SERVER_URL}
+            setImage={setImage}
+          />
         </>
       ) : null}
       <div
@@ -180,15 +187,19 @@ const EmailModal = ({ screenShot, setPCanvas, setModal }) => {
   );
 };
 
-const ImageGrid = ({ allImages, setImage }) => {
-  const URL = 'http://localhost:3030';
+const ImageGrid = ({ allImages, setImage, SERVER_URL }) => {
   const imageClick = (e) => {
     setImage(e.target.src);
   };
   return (
     <div className='allImageGrid'>
       {allImages.map((image, i) => (
-        <img key={i} src={`${URL}/${image}`} alt='' onClick={imageClick} />
+        <img
+          key={i}
+          src={`${SERVER_URL}/${image}`}
+          alt=''
+          onClick={imageClick}
+        />
       ))}
     </div>
   );
