@@ -2,11 +2,11 @@ import { useState, useRef, useEffect } from 'react';
 import './App.css';
 import Images from './components/Images';
 import UI from './components/UI';
-import Video from './components/Video';
 import { io } from 'socket.io-client';
 
 function App() {
-  const SERVER_URL = 'http://localhost:3030/';
+  // const SERVER_URL = 'http://localhost:3030/';
+  const SERVER_URL = 'https://ar-kiosk-proto.herokuapp.com/';
 
   const [socket, setSocket] = useState();
 
@@ -24,6 +24,7 @@ function App() {
     //   socket =  io.connect(SERVER_URL);
     //   console.log('connecting to socket');
     // }
+    // eslint-disable-next-line
   }, []);
 
   const userVid = useRef();

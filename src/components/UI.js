@@ -9,7 +9,8 @@ const UI = ({ setImage, setVid, image, userVid, socket, vid }) => {
   const [pCanvas, setPCanvas] = useState(false);
   const [modal, setModal] = useState(false);
 
-  const SERVER_URL = 'http://localhost:3030';
+  // const SERVER_URL = 'http://localhost:3030';
+  const SERVER_URL = 'https://ar-kiosk-proto.herokuapp.com';
 
   // let socket;
 
@@ -51,7 +52,14 @@ const UI = ({ setImage, setVid, image, userVid, socket, vid }) => {
     app.appendChild(timerP);
 
     const testINT = setInterval(() => {
-      timerP.innerText = (parseInt(timerP.innerText) + 1).toString();
+      if (parseInt(timerP.innerText) < 3) {
+        timerP.innerText = (parseInt(timerP.innerText) + 1).toString();
+      } else {
+        timerP.innerText = 'Clicking';
+      }
+      // if (parseInt(timerP.innerText) >= 3) {
+      //   return;
+      // }
     }, 1000);
 
     // setModal(true);
