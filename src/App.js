@@ -8,17 +8,30 @@ import { io } from 'socket.io-client';
 function App() {
   const SERVER_URL = 'http://localhost:3030/';
 
-  let socket;
+  const [socket, setSocket] = useState();
+
+  // let socket;
   useEffect(() => {
-    // if (!socket) socket = io.connect(SERVER_URL);
-    console.log('connecting to socket');
-    socket = io.connect(SERVER_URL);
+    if (!socket) console.log('no socket');
+
+    const c = async () => {
+      const s = io.connect(SERVER_URL);
+      setSocket(s);
+    };
+
+    c();
+    // if (!socket) {
+    //   socket =  io.connect(SERVER_URL);
+    //   console.log('connecting to socket');
+    // }
   }, []);
 
   const userVid = useRef();
 
   const [image, setImage] = useState(null);
   const [vid, setVid] = useState(false);
+
+  if (!socket) return null;
 
   return (
     <div className='App'>

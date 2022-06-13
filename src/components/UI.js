@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillCamera, AiFillVideoCamera } from 'react-icons/ai';
 import html2canvas from 'html2canvas';
-import { io } from 'socket.io-client';
 
 const UI = ({ setImage, setVid, image, userVid, socket, vid }) => {
   // const [userInput, setUserInput] = useState('');
@@ -120,6 +119,7 @@ const UI = ({ setImage, setVid, image, userVid, socket, vid }) => {
           screenShot={screenShot}
           setPCanvas={setPCanvas}
           setModal={setModal}
+          socket={socket}
         />
       ) : null}
       {!vid ? (
@@ -150,8 +150,7 @@ const UI = ({ setImage, setVid, image, userVid, socket, vid }) => {
   );
 };
 
-const EmailModal = ({ screenShot, setPCanvas, setModal }) => {
-  // console.log(screenShot);
+const EmailModal = ({ screenShot, setPCanvas, setModal, socket }) => {
   const [userEmail, setUserEmail] = useState('');
   const handleEmailSubmission = (e) => {
     e.preventDefault();
@@ -159,31 +158,12 @@ const EmailModal = ({ screenShot, setPCanvas, setModal }) => {
       alert('invalid email');
       return;
     }
-    console.log(screenShot);
+    alert(`sending mail to : ${userEmail} `);
     // use smtpjs to send emails
-    // socket.emit('send_image', { screenShot, userEmail });
+    socket.emit('send_image', { screenShot, userEmail });
     setModal(false);
     setPCanvas(null);
   };
-
-  // function sendEmail() {
-  //   Email.send({
-  //     Host: 'smtp.mandrillapp.com',
-  //     Username: 'test business',
-  //     Password: 'wpU4pEDnFNeZIyLMi6dMXA',
-  //     To: userEmail,
-  //     From: 'liyakik847@dilanfa.com',
-  //     Subject: 'your screenshot',
-  //     Body: 'This is your screenShot',
-  //     Attachments: [
-  //       {
-  //         name: 'smtpjs.png',
-  //         path: screenShot,
-  //       },
-  //     ],
-  //   }).then((message) => alert('mail sent successfully'));
-  // }
-
   return (
     <form onSubmit={handleEmailSubmission}>
       <input
