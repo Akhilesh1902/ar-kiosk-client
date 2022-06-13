@@ -5,8 +5,8 @@ import UI from './components/UI';
 import { io } from 'socket.io-client';
 
 function App() {
-  const SERVER_URL = 'http://localhost:3030/';
-  // const SERVER_URL = 'https://ar-kiosk-proto.herokuapp.com/';
+  // const SERVER_URL = 'http://localhost:3030/';
+  const SERVER_URL = 'https://ar-kiosk-proto.herokuapp.com/';
 
   const [socket, setSocket] = useState();
 
