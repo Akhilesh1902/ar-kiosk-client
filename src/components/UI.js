@@ -78,27 +78,6 @@ const UI = ({ setImage, setVid, image, userVid, socket, vid }) => {
     }, 3000);
   };
 
-  const displayImageToUser = (canvas) => {
-    // console.log(canvas);
-    const canvasContainer = document.createElement('div');
-    canvasContainer.classList.add('canvascontainer');
-    canvasContainer.appendChild(canvas);
-    const h = `
-    <h1>hello</h1>`;
-    // console.log(canvasContainer);
-  };
-
-  const downloadImage = (dImage, fName) => {
-    const fakeLink = window.document.createElement('a');
-    fakeLink.style = 'display:none';
-    fakeLink.download = fName;
-    fakeLink.href = dImage;
-    document.body.appendChild(fakeLink);
-    fakeLink.click();
-    document.body.removeChild(fakeLink);
-    fakeLink.remove();
-  };
-
   const handleRetake = () => {
     document.querySelector('.previewCanvasContainer').removeChild(pCanvas);
     setPCanvas(null);
