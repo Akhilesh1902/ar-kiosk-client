@@ -8,13 +8,12 @@ import { io } from 'socket.io-client';
 function App() {
   const SERVER_URL = 'http://localhost:3030/';
 
-  // let socket;
+  let socket;
   useEffect(() => {
     // if (!socket) socket = io.connect(SERVER_URL);
     console.log('connecting to socket');
+    socket = io.connect(SERVER_URL);
   }, []);
-
-  const socket = io.connect(SERVER_URL);
 
   const userVid = useRef();
 
@@ -37,6 +36,7 @@ function App() {
         setVid={setVid}
         vid={vid}
       />
+      <p className='timerP'></p>
     </div>
   );
 }

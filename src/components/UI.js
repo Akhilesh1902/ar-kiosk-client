@@ -44,19 +44,31 @@ const UI = ({ setImage, setVid, image, userVid, socket, vid }) => {
       alert('turn on video');
       return;
     }
+
+    const app = document.querySelector('.App');
+    const timerP = document.querySelector('.timerP');
+    timerP.innerText = '1';
+
+    app.appendChild(timerP);
+
+    const testINT = setInterval(() => {
+      timerP.innerText = (parseInt(timerP.innerText) + 1).toString();
+    }, 1000);
+
     // setModal(true);
-    const poto = document.querySelector('.videoContainer');
-    const canvas = await html2canvas(poto, {
-      allowTaint: true,
-      useCORS: true,
-    });
+    setTimeout(async () => {
+      const poto = document.querySelector('.videoContainer');
+      const canvas = await html2canvas(poto, {
+        allowTaint: true,
+        useCORS: true,
+      });
 
-    // displayImageToUser(canvas);
-    setPCanvas(canvas);
-    document.querySelector('.previewCanvasContainer').appendChild(canvas);
-
-    // console.log(image);
-    // downloadImage(image, 'yourImage');
+      // displayImageToUser(canvas);
+      setPCanvas(canvas);
+      document.querySelector('.previewCanvasContainer').appendChild(canvas);
+      timerP.innerText = '';
+      clearInterval(testINT);
+    }, 3000);
   };
 
   const displayImageToUser = (canvas) => {

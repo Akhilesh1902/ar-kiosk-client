@@ -131,3 +131,11 @@ button > svg {
   display: flex;
   gap: 1em;
 }
+.timerP {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: aliceblue;
+  font-size: 4rem;
+}
