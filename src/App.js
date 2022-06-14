@@ -5,8 +5,8 @@ import UI from './components/UI';
 import { io } from 'socket.io-client';
 
 function App() {
-  // const SERVER_URL = 'http://localhost:3030/';
-  const SERVER_URL = 'https://ar-kiosk-proto.herokuapp.com/';
+  // const SERVER_URL = 'http://localhost:3030';
+  const SERVER_URL = 'https://ar-kiosk-proto.herokuapp.com';
 
   const [socket, setSocket] = useState();
 
@@ -38,10 +38,17 @@ function App() {
     }
 
     const getVideo = async () => {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        audio: false,
-        video: true,
-      });
+      const stream = await navigator.mediaDevices
+        .getUserMedia({
+          audio: false,
+          video: true,
+        })
+        .catch((err) => {
+          console.log(err);
+          alert('no camera found');
+          setVid(false);
+          setImage('');
+        });
       userVid.current.srcObject = stream;
     };
     getVideo();
@@ -50,12 +57,19 @@ function App() {
   if (!socket) return null;
 
   return (
-    <div className='App'>
-      <div className='videoContainer' style={{ backgroundColor: 'black' }}>
+    <div className='App grid bg-dark  place-items-center'>
+      <div
+        className='videoContainer w-screen h-screen items-center flex'
+        style={{ background: 'none' }}>
         {/* <Video vid={vid} /> */}
-        <video ref={userVid} id='userCam' autoPlay playsInline></video>
+        <video
+          ref={userVid}
+          id='userCam'
+          autoPlay
+          playsInline
+          className='h-screen object-cover'></video>
 
-        <Images image={image} />
+        <Images image={image} vid={vid} />
       </div>
       <UI
         socket={socket}
@@ -64,6 +78,7 @@ function App() {
         image={image}
         setVid={setVid}
         vid={vid}
+        SERVER_URL={SERVER_URL}
       />
       <p className='timerP'></p>
     </div>

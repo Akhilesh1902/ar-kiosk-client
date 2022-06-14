@@ -1,33 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { AiFillCamera, AiFillVideoCamera } from 'react-icons/ai';
 import html2canvas from 'html2canvas';
+import EmailModal from './UI/EmailModal';
+import ImageGrid from './UI/ImageGrid';
 
-const UI = ({ setImage, setVid, image, userVid, socket, vid }) => {
+const UI = (props) => {
   // const [userInput, setUserInput] = useState('');
+
+  const { setImage, setVid, image, userVid, socket, vid, SERVER_URL } = props;
+
   const [allImages, setAllImages] = useState([]);
   const [screenShot, setScreenShot] = useState();
   const [pCanvas, setPCanvas] = useState(false);
   const [modal, setModal] = useState(false);
 
-  // const SERVER_URL = 'http://localhost:3030';
-  const SERVER_URL = 'https://ar-kiosk-proto.herokuapp.com';
-
-  // let socket;
-
   const getAllImage = async () => {
-    // debugger;
     const allImg = await fetch(`${SERVER_URL}/images`);
-    console.log(allImg);
-    // debugger;
     const data = await allImg.json();
-    console.log(data);
     setAllImages(data);
   };
 
   useEffect(() => {
-    // if (!socket) socket = io.connect(SERVER_URL);
-    console.log('here');
-
     getAllImage().catch((err) => {
       console.log(err);
     });
@@ -92,15 +85,10 @@ const UI = ({ setImage, setVid, image, userVid, socket, vid }) => {
   };
 
   return (
-    <div className='uiContainer'>
-      <div className='button-container'>
-        <button onClick={() => setVid(!vid)}>
-          <AiFillVideoCamera color={vid ? '#c2968a' : '#8dc7a2'} />
-        </button>
-        <button onClick={handleCapture}>
-          <AiFillCamera color={modal ? '#c2968a' : '#8dc7a2'} />
-        </button>
-      </div>
+    <div
+      className={`uiContainer flex flex-col absolute h-4/5 justify-center items-center w-1/2 bg-dark rounded pb-4 ${
+        vid ? 'bg-transparent' : 'glass'
+      }`}>
       {modal ? (
         <EmailModal
           screenShot={screenShot}
@@ -110,76 +98,62 @@ const UI = ({ setImage, setVid, image, userVid, socket, vid }) => {
         />
       ) : null}
       {!vid ? (
-        <>
-          <h1>Select Photo</h1>
+        <div style={{ display: vid ? 'none' : 'flex' }} className='flex-col'>
+          <h1 className='font-bold text-accent text-3xl px-3 pt-3 self-start '>
+            AR KIOSK
+          </h1>
+          <h1 className='font-bold text-text px-3 pb-3 self-start '>
+            Select a Photo To Interact
+          </h1>
           <ImageGrid
+            setVid={setVid}
             allImages={allImages}
             SERVER_URL={SERVER_URL}
             setImage={setImage}
+            image={image}
           />
-        </>
+        </div>
       ) : null}
       <div
         className='previewCanvasContainer'
         style={{ border: pCanvas && !modal ? '1px solid #c2968a' : 'none' }}>
         {pCanvas && !modal ? (
-          <div className='UI'>
-            <button className='button' onClick={handleRetake}>
+          <div className='UI justify-self-end self-end'>
+            <button
+              className='bg-accent px-2 py-1 rounded text-dark font-medium text-xs'
+              onClick={handleRetake}>
               Retake
             </button>
-            <button className='button' onClick={handleImageDelevery}>
+            <button
+              className='bg-mid px-2 py-1 rounded text-text font-medium text-xs'
+              onClick={handleImageDelevery}>
               Get Image
             </button>
           </div>
         ) : null}
       </div>
-    </div>
-  );
-};
-
-const EmailModal = ({ screenShot, setPCanvas, setModal, socket }) => {
-  const [userEmail, setUserEmail] = useState('');
-  const handleEmailSubmission = (e) => {
-    e.preventDefault();
-    if (!userEmail.includes('@')) {
-      alert('invalid email');
-      return;
-    }
-    alert(`sending mail to : ${userEmail} `);
-    // use smtpjs to send emails
-    socket.emit('send_image', { screenShot, userEmail });
-    setModal(false);
-    setPCanvas(null);
-  };
-  return (
-    <form onSubmit={handleEmailSubmission}>
-      <input
-        type='text'
-        onChange={(e) => setUserEmail(e.target.value)}
-        value={userEmail}
-        placeholder='enter your email'
-      />
-      <button className='button' type='submit'>
-        get image via email
-      </button>
-    </form>
-  );
-};
-
-const ImageGrid = ({ allImages, setImage, SERVER_URL }) => {
-  const imageClick = (e) => {
-    setImage(e.target.src);
-  };
-  return (
-    <div className='allImageGrid'>
-      {allImages.map((image, i) => (
-        <img
-          key={i}
-          src={`${SERVER_URL}/${image}`}
-          alt=''
-          onClick={imageClick}
-        />
-      ))}
+      {vid ? (
+        <div
+          className={`button-container flex gap-5 justify-self-end absolute bottom-0 p-2 px-4 rounded text-text font-bold text-xs ${
+            !vid ? null : 'glass'
+          }`}>
+          <button
+            className='flex  flex-col  items-center gap-0'
+            onClick={() => {
+              setImage('');
+              setVid(!vid);
+            }}>
+            <AiFillVideoCamera className='text-3xl text-dark' />
+            Exit Video
+          </button>
+          <button
+            onClick={handleCapture}
+            className='flex text-text font-bold flex-col text-xs items-center gap-0'>
+            <AiFillCamera className='text-3xl text-accent' />
+            Capture Image
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 };
