@@ -67,7 +67,7 @@ function App() {
           id='userCam'
           autoPlay
           playsInline
-          className='h-screen object-cover'></video>
+          className='h-screen w-screen object-cover'></video>
 
         <Images image={image} vid={vid} />
       </div>

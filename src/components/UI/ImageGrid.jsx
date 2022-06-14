@@ -18,14 +18,14 @@ const ImageGrid = ({ allImages, setImage, image, setVid, SERVER_URL }) => {
     setVid(true);
   };
   return (
-    <div className='allImageGrid w-full flex justify-center gap-2 flex-wrap p-5'>
+    <div className='allImageGrid w-full flex justify-center gap-2 flex-wrap p-5 '>
       {allImages.map((image, i) => (
         <img
           key={i}
           src={`${SERVER_URL}/${image}`}
           alt=''
           onClick={imageClick}
-          className='w-1/4'
+          className='w-1/5'
         />
       ))}
     </div>
