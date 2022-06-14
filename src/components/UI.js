@@ -7,7 +7,7 @@ import ImageGrid from './UI/ImageGrid';
 const UI = (props) => {
   // const [userInput, setUserInput] = useState('');
 
-  const { setImage, setVid, image, userVid, socket, vid, SERVER_URL } = props;
+  const { setImage, setVid, image, socket, vid, SERVER_URL } = props;
 
   const [allImages, setAllImages] = useState([]);
   const [screenShot, setScreenShot] = useState();
@@ -24,12 +24,12 @@ const UI = (props) => {
     getAllImage().catch((err) => {
       console.log(err);
     });
+
+    // eslint-disable-next-line
   }, []);
 
   socket?.on('images_updated', () => {
-    console.log('here');
     getAllImage();
-    console.log('here');
   });
 
   const handleCapture = async () => {
