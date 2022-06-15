@@ -16,6 +16,7 @@ const UI = (props) => {
 
   const getAllImage = async () => {
     const allImg = await fetch(`${SERVER_URL}/images`);
+    console.log(allImg);
     const data = await allImg.json();
     setAllImages(data);
   };
@@ -99,7 +100,7 @@ const UI = (props) => {
       ) : null}
       {!vid ? (
         <div style={{ display: vid ? 'none' : 'flex' }} className='flex-col'>
-          <h1 className='font-bold text-accent text-3xl px-3 pt-3 self-start '>
+          <h1 className='font-bold overflow-hidden text-accent text-3xl px-3 pt-3 self-start '>
             AR KIOSK
           </h1>
           <h1 className='font-bold text-text px-3 pb-3 self-start '>
@@ -115,7 +116,7 @@ const UI = (props) => {
         </div>
       ) : null}
       <div
-        className='previewCanvasContainer'
+        className='previewCanvasContainer z-20   '
         style={{ border: pCanvas && !modal ? '1px solid #c2968a' : 'none' }}>
         {pCanvas && !modal ? (
           <div className='UI justify-self-end self-end'>
