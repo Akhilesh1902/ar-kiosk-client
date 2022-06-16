@@ -16,7 +16,6 @@ const UI = (props) => {
 
   const getAllImage = async () => {
     const allImg = await fetch(`${SERVER_URL}/images`);
-    console.log(allImg);
     const data = await allImg.json();
     setAllImages(data);
   };
@@ -99,11 +98,13 @@ const UI = (props) => {
         />
       ) : null}
       {!vid ? (
-        <div style={{ display: vid ? 'none' : 'flex' }} className='flex-col'>
-          <h1 className='font-bold overflow-hidden text-accent text-3xl px-3 pt-3 self-start '>
+        <div
+          style={{ display: vid ? 'none' : 'flex' }}
+          className='flex-col h-max items-center justify-center'>
+          <h1 className='font-bold text-accent text-3xl  self-start '>
             AR KIOSK
           </h1>
-          <h1 className='font-bold text-text px-3 pb-3 self-start '>
+          <h1 className='font-bold text-text  self-start '>
             Select a Photo To Interact
           </h1>
           <ImageGrid
@@ -133,7 +134,7 @@ const UI = (props) => {
           </div>
         ) : null}
       </div>
-      {vid ? (
+      {vid && !pCanvas ? (
         <div
           className={`button-container flex gap-5 justify-self-end absolute bottom-0 p-2 px-4 rounded text-text font-bold text-xs ${
             !vid ? null : 'glass'

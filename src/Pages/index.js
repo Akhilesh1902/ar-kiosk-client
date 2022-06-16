@@ -14,6 +14,10 @@ const index = ({ socket, SERVER_URL }) => {
         path='/admin'
         element={<Admin socket={socket} SERVER_URL={SERVER_URL} />}
       />
+      <Route
+        path='/admin/:subpath'
+        element={<Admin socket={socket} SERVER_URL={SERVER_URL} />}
+      />
     </Routes>
   );
 };

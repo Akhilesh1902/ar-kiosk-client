@@ -19,10 +19,10 @@ const ImageGrid = ({ allImages, setImage, image, setVid, SERVER_URL }) => {
   };
   return (
     <div className='allImageGrid h-1/2 md:h-full overflow-y-scroll w-full flex justify-center gap-2 flex-wrap p-5 '>
-      {allImages.map((image, i) => (
+      {allImages.map((data, i) => (
         <img
           key={i}
-          src={`${SERVER_URL}/${image}`}
+          src={`${SERVER_URL}/${data.link}`}
           alt=''
           onClick={imageClick}
           className='gridImg w-1/5'
