@@ -15,7 +15,7 @@ const EmailModal = ({ screenShot, setPCanvas, setModal, socket }) => {
     setPCanvas(null);
   };
   return (
-    <form onSubmit={handleEmailSubmission}>
+    <form className='z-30' onSubmit={handleEmailSubmission}>
       <input
         type='text'
         onChange={(e) => setUserEmail(e.target.value)}

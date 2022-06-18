@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
-const DeleteImagePanel = ({ socket, SERVER_URL, setType, type }) => {
+const ArrangeImages = ({ socket, SERVER_URL }) => {
   const [imgArr, setImgArr] = useState([]);
+  const [selected, setSelected] = useState('');
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -31,15 +32,31 @@ const DeleteImagePanel = ({ socket, SERVER_URL, setType, type }) => {
   }, []);
 
   const handleImageClick = (e) => {
-    const clickedImg = imgArr.find((img) => img.link === e.target.src);
-    if (window.confirm(`Confirm Delete?\nImage : ${clickedImg.name}`)) {
-      socket.emit('__delete_image', { img: clickedImg });
+    // console.log(selected);
+    // console.log(e.target.src);
+    if (selected) {
+      console.log(imgArr);
+      //   console.log(arr);
+      const f = imgArr.find((i) => i.link === selected);
+      const s = imgArr.find((i) => i.link === e.target.src);
+
+      const i = imgArr.indexOf(f);
+      const j = imgArr.indexOf(s);
+
+      let a = imgArr[i];
+
+      imgArr[i] = imgArr[j];
+      imgArr[j] = a;
+      setSelected('');
+      socket.emit('img_rearranged', { imgArr });
+      return;
     }
+    setSelected(e.target.src);
   };
 
   return (
     <div className='flex flex-col h-full '>
-      <h1 className='py-2 '>Click on Image to delete from server</h1>
+      <h1 className='py-2 '>Click on two Images to swap</h1>
       <div className='flex img_container content-start justify-start items-start flex-wrap h-full'>
         {imgArr.map((data, i) => {
           return (
@@ -59,4 +76,4 @@ const DeleteImagePanel = ({ socket, SERVER_URL, setType, type }) => {
   );
 };
 
-export default DeleteImagePanel;
+export default ArrangeImages;

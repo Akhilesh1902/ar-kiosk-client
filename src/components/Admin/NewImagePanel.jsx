@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 
-const NewImagePanel = ({ socket }) => {
+const NewImagePanel = ({ socket, type, setType }) => {
   const image_input_ref = useRef();
   const image_display_ref = useRef();
   const image_name_ref = useRef();
@@ -22,8 +22,10 @@ const NewImagePanel = ({ socket }) => {
     const curExt = image_name_ref.current.value.split('.').pop();
     if (!ext.includes(curExt)) {
       console.log('wrong extension');
+      alert('wrong extension');
       return;
     }
+    alert('Image being uploaded');
     socket.emit('_new_image_upload', {
       imageName: image_name_ref.current.value,
       image: selectedFile,

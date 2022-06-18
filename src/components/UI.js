@@ -7,7 +7,8 @@ import ImageGrid from './UI/ImageGrid';
 const UI = (props) => {
   // const [userInput, setUserInput] = useState('');
 
-  const { setImage, setVid, image, socket, vid, SERVER_URL } = props;
+  const { setImage, setVid, image, socket, vid, SERVER_URL, edit, setEdit } =
+    props;
 
   const [allImages, setAllImages] = useState([]);
   const [screenShot, setScreenShot] = useState();
@@ -31,12 +32,20 @@ const UI = (props) => {
   socket?.on('images_updated', () => {
     getAllImage();
   });
+  let capTimeOut;
 
   const handleCapture = async () => {
     if (!vid) {
       alert('turn on video');
       return;
     }
+
+    if (edit.edit) {
+      alert('still editing');
+      return;
+    }
+
+    if (capTimeOut) return;
 
     const app = document.querySelector('.App');
     const timerP = document.querySelector('.timerP');
@@ -56,7 +65,7 @@ const UI = (props) => {
     }, 1000);
 
     // setModal(true);
-    setTimeout(async () => {
+    capTimeOut = setTimeout(async () => {
       const poto = document.querySelector('.videoContainer');
       const canvas = await html2canvas(poto, {
         allowTaint: true,
@@ -68,6 +77,7 @@ const UI = (props) => {
       document.querySelector('.previewCanvasContainer').appendChild(canvas);
       timerP.innerText = '';
       clearInterval(testINT);
+      capTimeOut = null;
     }, 3000);
   };
 
@@ -84,10 +94,15 @@ const UI = (props) => {
     setModal(true);
   };
 
+  const handleEdit = () => {
+    setEdit((prev) => ({ ...prev, edit: !edit.edit }));
+  };
+
   return (
     <div
-      className={`uiContainer flex flex-col absolute h-4/5 justify-center items-center w-1/2 bg-dark rounded pb-4 ${
-        vid ? 'bg-transparent' : 'glass'
+      id='uiContainer'
+      className={`uiContainer  flex flex-col absolute h-4/5 justify-center items-center w-1/2 bg-dark rounded pb-4 ${
+        vid ? 'bg-transparent ' : 'z-20 glass'
       }`}>
       {modal ? (
         <EmailModal
@@ -100,8 +115,8 @@ const UI = (props) => {
       {!vid ? (
         <div
           style={{ display: vid ? 'none' : 'flex' }}
-          className='flex-col h-max items-center justify-center'>
-          <h1 className='font-bold text-accent text-3xl  self-start '>
+          className='flex-col h-5/6 items-center justify-center'>
+          <h1 className='font-bold pt-3 text-accent text-3xl  self-start '>
             AR KIOSK
           </h1>
           <h1 className='font-bold text-text  self-start '>
@@ -136,8 +151,8 @@ const UI = (props) => {
       </div>
       {vid && !pCanvas ? (
         <div
-          className={`button-container flex gap-5 justify-self-end absolute bottom-0 p-2 px-4 rounded text-text font-bold text-xs ${
-            !vid ? null : 'glass'
+          className={`button-container z-30 flex gap-5 justify-self-end absolute bottom-0 p-2 px-4 rounded text-text font-bold text-xs ${
+            !vid ? '' : ' glass'
           }`}>
           <button
             className='flex  flex-col  items-center gap-0'
@@ -153,6 +168,12 @@ const UI = (props) => {
             className='flex text-text font-bold flex-col text-xs items-center gap-0'>
             <AiFillCamera className='text-3xl text-accent' />
             Capture Image
+          </button>
+          <button
+            onClick={handleEdit}
+            className='flex text-text font-bold flex-col text-xs items-center gap-0'>
+            <AiFillCamera className='text-3xl text-accent' />
+            Edit Img
           </button>
         </div>
       ) : null}

@@ -18,15 +18,16 @@ const ImageGrid = ({ allImages, setImage, image, setVid, SERVER_URL }) => {
     setVid(true);
   };
   return (
-    <div className='allImageGrid h-1/2 md:h-full overflow-y-scroll w-full flex justify-center gap-2 flex-wrap p-5 '>
+    <div className='allImageGrid h-1/2 md:h-full overflow-y-scroll w-full flex justify-center content-start gap-2 flex-wrap p-5 '>
       {allImages.map((data, i) => (
-        <img
-          key={i}
-          src={`${SERVER_URL}/${data.link}`}
-          alt=''
-          onClick={imageClick}
-          className='gridImg w-1/5'
-        />
+        <div className='w-24 mr-1 h-24' key={i}>
+          <img
+            src={`${SERVER_URL}/${data.link}`}
+            alt=''
+            onClick={imageClick}
+            className='gridImg w-24 h-full rounded border border-dark'
+          />
+        </div>
       ))}
     </div>
   );

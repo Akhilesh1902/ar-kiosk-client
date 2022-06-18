@@ -1,15 +1,20 @@
-import React from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link, NavLink, useParams } from 'react-router-dom';
+import ArrangeImages from './ArrangeImages';
 import DeleteImagePanel from './DeleteImagePanel';
+import Modal from './Modal';
 import NewImagePanel from './NewImagePanel';
 
 const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
   const { subpath } = useParams();
+  const [type, setType] = useState(null);
 
   return (
     <div className='overflow-hidden main bg-slate text-gray h-screen flex flex-col'>
       <nav className='flex justify-between py-3 items-center px-5 bg-mid'>
-        <h1 className='font-bold text-text'>AR-Kiosk Dash</h1>
+        <Link to='/' className='font-bold text-text'>
+          AR-Kiosk Dash
+        </Link>
         <button
           className='bg-accent rounded p-1 px-3 text-sm text-text'
           onClick={() => {
@@ -29,11 +34,24 @@ const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
           <NavLink to={'/admin/deleteimage'} className='text-text'>
             Delete Image
           </NavLink>
+          <NavLink to={'/admin/arrangeimages'} className='text-text'>
+            Arrange Images
+          </NavLink>
         </section>
         <section className='right-section p-4 h-screen w-full'>
-          {subpath === 'newimage' && <NewImagePanel socket={socket} />}
+          {subpath === 'newimage' && (
+            <NewImagePanel type={type} setType={setType} socket={socket} />
+          )}
           {subpath === 'deleteimage' && (
-            <DeleteImagePanel SERVER_URL={SERVER_URL} socket={socket} />
+            <DeleteImagePanel
+              SERVER_URL={SERVER_URL}
+              type={type}
+              setType={setType}
+              socket={socket}
+            />
+          )}
+          {subpath === 'arrangeimages' && (
+            <ArrangeImages SERVER_URL={SERVER_URL} socket={socket} />
           )}
           {subpath === undefined && (
             <>
@@ -41,6 +59,7 @@ const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
               <p>Select Your options from the left panel</p>
             </>
           )}
+          {type ? <Modal /> : null}
         </section>
       </div>
     </div>
