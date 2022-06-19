@@ -9,17 +9,13 @@ function App() {
   const SERVER_URL = 'https://ar-kiosk-proto.herokuapp.com';
 
   const [socket, setSocket] = useState();
-
   useEffect(() => {
     if (!socket) console.log('no socket');
-
     const c = () => {
       const s = io.connect(SERVER_URL);
       setSocket(s);
     };
-
     c();
-
     // eslint-disable-next-line
   }, []);
 

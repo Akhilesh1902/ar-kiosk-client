@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, NavLink, useParams } from 'react-router-dom';
 import ArrangeImages from './ArrangeImages';
 import DeleteImagePanel from './DeleteImagePanel';
-import Modal from './Modal';
+import ImagePositioning from './ImagePositioning';
+// import Modal from './Modal';
 import NewImagePanel from './NewImagePanel';
 
 const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
   const { subpath } = useParams();
-  const [type, setType] = useState(null);
+  // const [type, setType] = useState(null);
 
   return (
     <div className='overflow-hidden main bg-slate text-gray h-screen flex flex-col'>
@@ -37,21 +38,20 @@ const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
           <NavLink to={'/admin/arrangeimages'} className='text-text'>
             Arrange Images
           </NavLink>
+          <NavLink to={'/admin/positionimage'} className='text-text'>
+            Position Scaling
+          </NavLink>
         </section>
-        <section className='right-section p-4 h-screen w-full'>
-          {subpath === 'newimage' && (
-            <NewImagePanel type={type} setType={setType} socket={socket} />
-          )}
+        <section className='right-section p-4 h-full w-full'>
+          {subpath === 'newimage' && <NewImagePanel socket={socket} />}
           {subpath === 'deleteimage' && (
-            <DeleteImagePanel
-              SERVER_URL={SERVER_URL}
-              type={type}
-              setType={setType}
-              socket={socket}
-            />
+            <DeleteImagePanel SERVER_URL={SERVER_URL} socket={socket} />
           )}
           {subpath === 'arrangeimages' && (
             <ArrangeImages SERVER_URL={SERVER_URL} socket={socket} />
+          )}
+          {subpath === 'positionimage' && (
+            <ImagePositioning SERVER_URL={SERVER_URL} socket={socket} />
           )}
           {subpath === undefined && (
             <>
@@ -59,7 +59,7 @@ const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
               <p>Select Your options from the left panel</p>
             </>
           )}
-          {type ? <Modal /> : null}
+          {/* {type ? <Modal /> : null} */}
         </section>
       </div>
     </div>

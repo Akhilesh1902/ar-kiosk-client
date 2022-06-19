@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { AiFillCamera, AiFillVideoCamera } from 'react-icons/ai';
 import html2canvas from 'html2canvas';
 import EmailModal from './UI/EmailModal';
 import ImageGrid from './UI/ImageGrid';
+import { useGetImageArray } from './utils/utils';
 
 const UI = (props) => {
   // const [userInput, setUserInput] = useState('');
@@ -10,28 +11,12 @@ const UI = (props) => {
   const { setImage, setVid, image, socket, vid, SERVER_URL, edit, setEdit } =
     props;
 
-  const [allImages, setAllImages] = useState([]);
   const [screenShot, setScreenShot] = useState();
   const [pCanvas, setPCanvas] = useState(false);
   const [modal, setModal] = useState(false);
 
-  const getAllImage = async () => {
-    const allImg = await fetch(`${SERVER_URL}/images`);
-    const data = await allImg.json();
-    setAllImages(data);
-  };
+  const [allImg] = useGetImageArray(SERVER_URL, socket);
 
-  useEffect(() => {
-    getAllImage().catch((err) => {
-      console.log(err);
-    });
-
-    // eslint-disable-next-line
-  }, []);
-
-  socket?.on('images_updated', () => {
-    getAllImage();
-  });
   let capTimeOut;
 
   const handleCapture = async () => {
@@ -124,7 +109,8 @@ const UI = (props) => {
           </h1>
           <ImageGrid
             setVid={setVid}
-            allImages={allImages}
+            // allImages={allImages}
+            allImg={allImg}
             SERVER_URL={SERVER_URL}
             setImage={setImage}
             image={image}
