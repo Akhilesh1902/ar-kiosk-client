@@ -2,15 +2,16 @@ import React from 'react';
 import { useGetImageArray } from '../utils/utils';
 
 const DeleteImagePanel = ({ socket, SERVER_URL }) => {
-  const [imgArr] = useGetImageArray(SERVER_URL, socket);
+  const [imgArr, reloadImgArr] = useGetImageArray(SERVER_URL, socket);
 
   const handleImageClick = (e) => {
-    const clickedImg = imgArr.find((img) => img.link === e.target.src);
-    debugger;
-    if (window.confirm(`Confirm Delete?\nImage : ${clickedImg.name}`)) {
-      // socket.emit('_image_update', { img: clickedImg });
-    }
+    const imageName = e.target.src.split('/')[5];
+    socket.emit('_image_update', { imageName, type: 'deletion' });
   };
+
+  socket.on('_image_update', () => {
+    reloadImgArr();
+  });
 
   return (
     <div className='flex flex-col h-full '>

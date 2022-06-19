@@ -9,7 +9,6 @@ const NewImagePanel = ({ socket }) => {
   const [selectedFile, setSelectedFile] = useState(null);
 
   const onFileCange = (e) => {
-    console.log(e.target.files);
     setSelectedFile(e.target.files[0]);
 
     const IURL = URL.createObjectURL(e.target.files[0]);

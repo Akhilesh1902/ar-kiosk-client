@@ -19,7 +19,7 @@ const ImageGrid = ({ setImage, allImg, image, setVid, SERVER_URL }) => {
         console.log(data);
         console.log(`${SERVER_URL}${data.url}`);
         return (
-          <div className='w-24 mr-1 h-24' key={data._id}>
+          <div className='w-24 mr-1 h-24' key={data._id || data.name}>
             <img
               src={`${SERVER_URL}${data.url}`}
               alt=''
