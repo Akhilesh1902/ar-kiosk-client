@@ -10,14 +10,6 @@ export const useGetImageArray = (SERVER_URL, socket) => {
     const data = await res.json();
 
     console.log(data);
-
-    // let linkArr = [];
-    // data.forEach((d) => {
-    //   linkArr.push({
-    //     name: d.name,
-    //     link: `${SERVER_URL}/${d.link}`,
-    //   });
-    // });
     setImgArr(data);
     // eslint-disable-next-line
   };

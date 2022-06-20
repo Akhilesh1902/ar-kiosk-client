@@ -5,7 +5,6 @@ const ImagePositioning = ({ SERVER_URL, socket }) => {
   //   const [imgArr, setImgArr] = useState([]);
 
   const [imageArray] = useGetImageArray(SERVER_URL, socket);
-  console.log(imageArray);
 
   const handleImageClick = () => {};
 
@@ -17,7 +16,7 @@ const ImagePositioning = ({ SERVER_URL, socket }) => {
           return (
             <div key={i} className='w-10 mr-1 h-10'>
               <img
-                className='w-24 h-full rounded border border-dark'
+                className='w-24 h-full object-cover object-top rounded border border-dark'
                 src={`${SERVER_URL}${data.url}`}
                 alt=''
                 onClick={handleImageClick}

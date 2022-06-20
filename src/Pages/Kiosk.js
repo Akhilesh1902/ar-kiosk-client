@@ -1,15 +1,12 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Images from '../components/Images';
 import UI from '../components/UI';
-import ImageProperties from '../components/UI/ImageProperties';
 
 const Kiosk = ({ socket, SERVER_URL }) => {
   const userVid = useRef();
 
   const [image, setImage] = useState(null);
   const [vid, setVid] = useState(false);
-  const [imgScale, setImageScale] = useState(50);
-  const [edit, setEdit] = useState({ edit: false, imgScale: 50 });
 
   useEffect(() => {
     if (!vid) {
@@ -41,7 +38,7 @@ const Kiosk = ({ socket, SERVER_URL }) => {
   return (
     <div className='App overflow-hidden relative grid bg-dark  place-items-center'>
       <div
-        className='videoContainer z-10 w-screen h-screen items-center flex'
+        className='videoContainer z-10 relative w-screen h-screen items-center flex'
         style={{ background: 'none' }}>
         {/* <Video vid={vid} /> */}
         <video
@@ -49,14 +46,11 @@ const Kiosk = ({ socket, SERVER_URL }) => {
           id='userCam'
           autoPlay
           playsInline
-          className='h-screen w-screen object-cover'></video>
+          className='h-screen w-screen absolute object-cover'></video>
 
-        <Images image={image} edit={edit} imgScale={imgScale} vid={vid} />
-        {edit.edit && <ImageProperties setImageScale={setImageScale} />}
+        <Images image={image} SERVER_URL={SERVER_URL} />
       </div>
       <UI
-        edit={edit}
-        setEdit={setEdit}
         socket={socket}
         setImage={setImage}
         userVid={userVid}

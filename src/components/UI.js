@@ -8,8 +8,7 @@ import { useGetImageArray } from './utils/utils';
 const UI = (props) => {
   // const [userInput, setUserInput] = useState('');
 
-  const { setImage, setVid, image, socket, vid, SERVER_URL, edit, setEdit } =
-    props;
+  const { setImage, setVid, image, socket, vid, SERVER_URL } = props;
 
   const [screenShot, setScreenShot] = useState();
   const [pCanvas, setPCanvas] = useState(false);
@@ -24,12 +23,6 @@ const UI = (props) => {
       alert('turn on video');
       return;
     }
-
-    if (edit.edit) {
-      alert('still editing');
-      return;
-    }
-
     if (capTimeOut) return;
 
     const app = document.querySelector('.App');
@@ -77,10 +70,6 @@ const UI = (props) => {
 
     setScreenShot(image);
     setModal(true);
-  };
-
-  const handleEdit = () => {
-    setEdit((prev) => ({ ...prev, edit: !edit.edit }));
   };
 
   return (
@@ -137,7 +126,7 @@ const UI = (props) => {
       </div>
       {vid && !pCanvas ? (
         <div
-          className={`button-container z-30 flex gap-5 justify-self-end absolute bottom-0 p-2 px-4 rounded text-text font-bold text-xs ${
+          className={`button-container z-30 flex gap-5 p-2 px-4 rounded text-text font-bold text-xs ${
             !vid ? '' : ' glass'
           }`}>
           <button
@@ -154,12 +143,6 @@ const UI = (props) => {
             className='flex text-text font-bold flex-col text-xs items-center gap-0'>
             <AiFillCamera className='text-3xl text-accent' />
             Capture Image
-          </button>
-          <button
-            onClick={handleEdit}
-            className='flex text-text font-bold flex-col text-xs items-center gap-0'>
-            <AiFillCamera className='text-3xl text-accent' />
-            Edit Img
           </button>
         </div>
       ) : null}
