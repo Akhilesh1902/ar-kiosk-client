@@ -8,19 +8,13 @@ const Images = ({ image, SERVER_URL }) => {
   useEffect(() => {
     console.log(imgRef.current);
 
-    const container = document.querySelector('.videoContainer');
-    console.log(container.clientWidth);
-    console.log(container.offsetWidth);
-    console.log(window.innerWidth);
-    console.log(window.innerHeight);
-
     if (image) {
-      console.log('changing');
       console.log(image.pos[0] * window.innerWidth);
 
       imgRef.current.style.left = `${image.pos[0] * window.innerWidth}px`;
       imgRef.current.style.top = `${image.pos[1] * window.innerHeight}px`;
     }
+    // eslint-disable-next-line
   }, [image?.name, imgRef]);
 
   return (
