@@ -6,7 +6,10 @@ const DeleteImagePanel = ({ socket, SERVER_URL }) => {
 
   const handleImageClick = (e) => {
     const imageName = e.target.src.split('/')[5];
-    socket.emit('_image_update', { imageName, type: 'deletion' });
+    console.log(imageName);
+    socket.emit('_image_update', {
+      imgData: { name: imageName, type: 'deletion' },
+    });
   };
 
   socket.on('_image_update', () => {
