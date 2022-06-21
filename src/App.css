@@ -15,6 +15,16 @@ Tutar Yellow : #EFC041
   background-size: cover;
 }
 
+.uiContainer {
+  background: linear-gradient(
+    to bottom right,
+    #45108a,
+    #5b1986,
+    #9b347a,
+    #f15769
+  );
+}
+
 .glass {
   backdrop-filter: blur(10px) saturate(100%);
   -webkit-backdrop-filter: blur(10px) saturate(100%);

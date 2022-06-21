@@ -1,11 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState } from 'react';
 import Modal from './Modal';
+import DraggablePreview from './DraggablePreview';
 
 const NewImagePanel = ({ socket }) => {
   const image_input_ref = useRef();
-  const image_display_ref = useRef();
-  const userVid = useRef();
-
   const [modal, setModal] = useState();
 
   const [imgData, setImgData] = useState({
@@ -17,49 +15,11 @@ const NewImagePanel = ({ socket }) => {
   });
 
   const onFileCange = (e) => {
-    setImgData({ ...imgData, file: e.target.files[0] });
     const IURL = URL.createObjectURL(e.target.files[0]);
-    image_display_ref.current.src = IURL;
+    setImgData({ ...imgData, file: e.target.files[0], url: IURL });
+    // image_display_ref.current.src = IURL;
+    console.log(imgData);
   };
-
-  useEffect(() => {
-    const containerWidth = document.querySelector('#display-image').clientWidth;
-    const containerHeight =
-      document.querySelector('#display-image').clientHeight;
-    image_display_ref.current.style.height = `${imgData.scale * 2}px`;
-    image_display_ref.current.style.top = `${
-      containerHeight * imgData.pos[1]
-    }px`;
-    image_display_ref.current.style.left = `${
-      containerWidth * imgData.pos[0]
-    }px`;
-  }, [imgData.scale, imgData.pos]);
-
-  useEffect(() => {
-    const imageContainer = document.querySelector('#display-image');
-    imageContainer.addEventListener('click', (e) => {
-      const posx =
-        (e.clientX - e.target.clientWidth) / e.target.clientWidth + 0.55;
-      const posy =
-        (e.clientY - e.target.clientHeight) / e.target.clientHeight - 0.35;
-      const pos = [Math.abs(posx), Math.abs(posy)];
-      setImgData((prev) => ({ ...prev, pos }));
-    });
-    const getVideo = async () => {
-      const stream = await navigator.mediaDevices
-        .getUserMedia({
-          audio: false,
-          video: true,
-        })
-        .catch((err) => {
-          console.log(err);
-          alert('no camera found');
-        });
-      console.log(stream);
-      userVid.current.srcObject = stream;
-    };
-    getVideo();
-  }, []);
 
   const handleSubmit = (e) => {
     console.log('submitting image');
@@ -111,7 +71,8 @@ const NewImagePanel = ({ socket }) => {
                   max-size:3.5mb
                 </span>
               </div>
-              <div
+              <DraggablePreview imgData={imgData} setImgData={setImgData} />
+              {/* <div
                 id='display-image'
                 className='w-full h-52 flex overflow-hidden bg-dark bg-center bg-cover rounded aspect-video z-10 relative'>
                 <video
@@ -126,7 +87,7 @@ const NewImagePanel = ({ socket }) => {
                   id='preview_image'
                   className=' absolute top-50 left-50 z-30'
                 />
-              </div>
+              </div> */}
             </div>
             <div className='flex flex-col'>
               <h1>Add postion and scaling setting</h1>

@@ -13,7 +13,7 @@ const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
     <div className='overflow-hidden main bg-slate text-gray h-screen flex flex-col'>
       <nav className='flex justify-between py-3 items-center px-5 bg-purple'>
         <Link to='/' className='font-bold text-accent'>
-          AR-Kiosk Dash
+          <img src='/logo3.png' className='w-16 ml-4' alt='Tutar Logo' />
         </Link>
         <button
           className='bg-mid rounded p-1 px-3 text-sm text-purple'

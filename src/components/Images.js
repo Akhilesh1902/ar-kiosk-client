@@ -2,15 +2,11 @@ import React from 'react';
 import { useRef, useEffect } from 'react';
 
 const Images = ({ image, SERVER_URL }) => {
-  console.log(image);
   const imgRef = useRef();
 
   useEffect(() => {
-    console.log(imgRef.current);
-
     if (image) {
-      console.log(image.pos[0] * window.innerWidth);
-
+      console.log(image.pos);
       imgRef.current.style.left = `${image.pos[0] * window.innerWidth}px`;
       imgRef.current.style.top = `${image.pos[1] * window.innerHeight}px`;
     }

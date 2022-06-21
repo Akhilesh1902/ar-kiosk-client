@@ -2,12 +2,9 @@ const ImageGrid = ({ setImage, allImg, image, setVid, SERVER_URL }) => {
   const imageClick = (e) => {
     const i = e.target.src;
     const curImg = document.querySelector('#image');
-    console.log(allImg);
-    console.log(i.split('static'));
     const curImgData = allImg.find(
       (data) => data.url === `/static${i.split('static')[1]}`
     );
-    console.log(curImgData);
     if (image === i) {
       setImage('');
       curImg.style.display = 'none';

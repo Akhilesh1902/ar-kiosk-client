@@ -5,11 +5,8 @@ export const useGetImageArray = (SERVER_URL, socket) => {
 
   const fetchImages = async () => {
     let _imgURL = `${SERVER_URL}/images`;
-
     const res = await fetch(_imgURL);
     const data = await res.json();
-
-    console.log(data);
     setImgArr(data);
     // eslint-disable-next-line
   };

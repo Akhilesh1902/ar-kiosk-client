@@ -69,8 +69,8 @@ const UI = (props) => {
   return (
     <div
       id='uiContainer'
-      className={`uiContainer  flex flex-col absolute h-4/5 justify-center items-center w-1/2 bg-dark rounded pb-4 ${
-        vid ? 'bg-transparent ' : 'z-20 glass'
+      className={`uiContainer  flex flex-col absolute h-4/5 justify-center items-center w-1/2  rounded pb-4 ${
+        vid ? '!bg-transparent ' : 'z-20 glas '
       }`}>
       {modal ? (
         <EmailModal
@@ -87,12 +87,8 @@ const UI = (props) => {
           {/* <h1 className='font-bold pt-3 text-accent text-3xl  self-start '>
             AR KIOSK
           </h1> */}
-          <img
-            src='/logo.png'
-            alt='TUTAR KIOSK'
-            className='h-10 self-start bg-accent p-1'
-          />
-          <h1 className='kiosk-heading font-bold text-purple self-start '>
+          <img src='/logo2.png' alt='TUTAR KIOSK' className='h-12 self-start' />
+          <h1 className='kiosk-heading font-bold text-accent self-start '>
             Select a Photo To Interact
           </h1>
           <ImageGrid
