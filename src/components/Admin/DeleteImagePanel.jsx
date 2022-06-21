@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useGetImageArray } from '../utils/utils';
+import Modal from './Modal';
 
 const DeleteImagePanel = ({ socket, SERVER_URL }) => {
   const [imgArr, reloadImgArr] = useGetImageArray(SERVER_URL, socket);
+  const [modal, setModal] = useState();
 
   const handleImageClick = (e) => {
     const imageName = e.target.src.split('/')[5];
@@ -10,6 +12,7 @@ const DeleteImagePanel = ({ socket, SERVER_URL }) => {
     socket.emit('_image_update', {
       imgData: { name: imageName, type: 'deletion' },
     });
+    setModal(false);
   };
 
   socket.on('_image_update', () => {
@@ -27,12 +30,20 @@ const DeleteImagePanel = ({ socket, SERVER_URL }) => {
                 className='w-24 h-full  object-cover object-top rounded border border-dark'
                 src={`${SERVER_URL}${data.url}`}
                 alt=''
-                onClick={handleImageClick}
+                onClick={() => {
+                  setModal(true);
+                }}
               />
             </div>
           );
         })}
-        {/* <Modal type={type} /> */}
+        {modal && (
+          <Modal
+            type='deletion'
+            setModal={setModal}
+            handleSubmit={handleImageClick}
+          />
+        )}
       </div>
     </div>
   );

@@ -24,7 +24,7 @@ const EmailModal = ({ screenShot, setPCanvas, setModal, socket }) => {
         placeholder='Enter your email'
       />
       <button
-        className='bg-mid my-2 px-2 py-1 rounded text-text font-medium text-xs'
+        className='bg-accent my-2 px-2 py-1 rounded text-purple font-medium text-xs'
         type='submit'>
         Get Image Via Mail
       </button>

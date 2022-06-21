@@ -13,33 +13,26 @@ const UI = (props) => {
   const [screenShot, setScreenShot] = useState();
   const [pCanvas, setPCanvas] = useState(false);
   const [modal, setModal] = useState(false);
-
+  const [capturing, setCapturing] = useState(false);
   const [allImg] = useGetImageArray(SERVER_URL, socket);
 
   let capTimeOut;
 
   const handleCapture = async () => {
-    if (!vid) {
-      alert('turn on video');
-      return;
-    }
     if (capTimeOut) return;
 
     const app = document.querySelector('.App');
     const timerP = document.querySelector('.timerP');
-    timerP.innerText = '1';
+    timerP.innerText = '5';
 
     app.appendChild(timerP);
 
     const testINT = setInterval(() => {
-      if (parseInt(timerP.innerText) < 3) {
-        timerP.innerText = (parseInt(timerP.innerText) + 1).toString();
+      if (parseInt(timerP.innerText) > 1) {
+        timerP.innerText = (parseInt(timerP.innerText) - 1).toString();
       } else {
-        timerP.innerText = 'Clicking';
+        timerP.innerText = 'Smile Please';
       }
-      // if (parseInt(timerP.innerText) >= 3) {
-      //   return;
-      // }
     }, 1000);
 
     // setModal(true);
@@ -56,7 +49,8 @@ const UI = (props) => {
       timerP.innerText = '';
       clearInterval(testINT);
       capTimeOut = null;
-    }, 3000);
+      setCapturing(false);
+    }, 5000);
   };
 
   const handleRetake = () => {
@@ -89,11 +83,16 @@ const UI = (props) => {
       {!vid ? (
         <div
           style={{ display: vid ? 'none' : 'flex' }}
-          className='flex-col h-5/6 items-center justify-center'>
-          <h1 className='font-bold pt-3 text-accent text-3xl  self-start '>
+          className='flex-col h-5/6 items-center px-5 justify-center'>
+          {/* <h1 className='font-bold pt-3 text-accent text-3xl  self-start '>
             AR KIOSK
-          </h1>
-          <h1 className='font-bold text-text  self-start '>
+          </h1> */}
+          <img
+            src='/logo.png'
+            alt='TUTAR KIOSK'
+            className='h-10 self-start bg-accent p-1'
+          />
+          <h1 className='kiosk-heading font-bold text-purple self-start '>
             Select a Photo To Interact
           </h1>
           <ImageGrid
@@ -112,19 +111,19 @@ const UI = (props) => {
         {pCanvas && !modal ? (
           <div className='UI justify-self-end self-end'>
             <button
-              className='bg-accent px-2 py-1 rounded text-dark font-medium text-xs'
+              className='bg-mid px-2 py-1 rounded text-dark font-medium text-xs'
               onClick={handleRetake}>
               Retake
             </button>
             <button
-              className='bg-mid px-2 py-1 rounded text-text font-medium text-xs'
+              className='bg-accent px-2 py-1 rounded text-purple font-medium text-xs'
               onClick={handleImageDelevery}>
               Get Image
             </button>
           </div>
         ) : null}
       </div>
-      {vid && !pCanvas ? (
+      {vid && !pCanvas && !capturing ? (
         <div
           className={`button-container z-30 flex gap-5 p-2 px-4 rounded text-text font-bold text-xs ${
             !vid ? '' : ' glass'
@@ -135,11 +134,14 @@ const UI = (props) => {
               setImage('');
               setVid(!vid);
             }}>
-            <AiFillVideoCamera className='text-3xl text-dark' />
+            <AiFillVideoCamera className='text-3xl text-mid' />
             Exit Video
           </button>
           <button
-            onClick={handleCapture}
+            onClick={() => {
+              setCapturing(true);
+              handleCapture();
+            }}
             className='flex text-text font-bold flex-col text-xs items-center gap-0'>
             <AiFillCamera className='text-3xl text-accent' />
             Capture Image

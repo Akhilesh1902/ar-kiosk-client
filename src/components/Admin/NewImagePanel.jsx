@@ -1,8 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
+import Modal from './Modal';
 
 const NewImagePanel = ({ socket }) => {
   const image_input_ref = useRef();
   const image_display_ref = useRef();
+  const userVid = useRef();
+
+  const [modal, setModal] = useState();
+
   const [imgData, setImgData] = useState({
     name: '',
     type: 'addition',
@@ -31,7 +36,8 @@ const NewImagePanel = ({ socket }) => {
   }, [imgData.scale, imgData.pos]);
 
   useEffect(() => {
-    document.querySelector('#display-image').addEventListener('click', (e) => {
+    const imageContainer = document.querySelector('#display-image');
+    imageContainer.addEventListener('click', (e) => {
       const posx =
         (e.clientX - e.target.clientWidth) / e.target.clientWidth + 0.55;
       const posy =
@@ -39,10 +45,23 @@ const NewImagePanel = ({ socket }) => {
       const pos = [Math.abs(posx), Math.abs(posy)];
       setImgData((prev) => ({ ...prev, pos }));
     });
+    const getVideo = async () => {
+      const stream = await navigator.mediaDevices
+        .getUserMedia({
+          audio: false,
+          video: true,
+        })
+        .catch((err) => {
+          console.log(err);
+          alert('no camera found');
+        });
+      console.log(stream);
+      userVid.current.srcObject = stream;
+    };
+    getVideo();
   }, []);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
     console.log('submitting image');
     const ext = ['jpg', 'jpeg', 'png'];
     const curExt = imgData.name.split('.').pop();
@@ -54,13 +73,18 @@ const NewImagePanel = ({ socket }) => {
     console.log('uploading');
     // alert('Image being uploaded');
     socket.emit('_image_update', { imgData });
+    setModal(false);
   };
+
   return (
     <div>
       <h1 className='mt-4 font-medium'>Add More Images To Kiosk</h1>
       <div className='pt-4'>
         <form
-          onSubmit={handleSubmit}
+          onSubmit={(e) => {
+            e.preventDefault();
+            setModal(true);
+          }}
           className='image-form w-full flex  gap-3 mt-4'>
           <div className='flex w-full justify-between gap-3'>
             <div className='flex  flex-col gap-3'>
@@ -89,12 +113,18 @@ const NewImagePanel = ({ socket }) => {
               </div>
               <div
                 id='display-image'
-                className='w-full h-52 flex overflow-hidden bg-dark bg-center bg-cover rounded aspect-video relative'>
+                className='w-full h-52 flex overflow-hidden bg-dark bg-center bg-cover rounded aspect-video z-10 relative'>
+                <video
+                  autoPlay
+                  playsInline
+                  ref={userVid}
+                  className=' h-full w-full absolute object-cover z-20'></video>
                 <img
                   ref={image_display_ref}
                   src=''
                   alt=''
-                  className=' absolute top-50 left-50'
+                  id='preview_image'
+                  className=' absolute top-50 left-50 z-30'
                 />
               </div>
             </div>
@@ -120,6 +150,13 @@ const NewImagePanel = ({ socket }) => {
             Submit
           </button>
         </form>
+        {modal && (
+          <Modal
+            type='addition'
+            setModal={setModal}
+            handleSubmit={handleSubmit}
+          />
+        )}
       </div>
     </div>
   );

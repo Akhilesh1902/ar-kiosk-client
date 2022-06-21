@@ -8,16 +8,15 @@ import NewImagePanel from './NewImagePanel';
 
 const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
   const { subpath } = useParams();
-  // const [type, setType] = useState(null);
 
   return (
     <div className='overflow-hidden main bg-slate text-gray h-screen flex flex-col'>
-      <nav className='flex justify-between py-3 items-center px-5 bg-mid'>
-        <Link to='/' className='font-bold text-text'>
+      <nav className='flex justify-between py-3 items-center px-5 bg-purple'>
+        <Link to='/' className='font-bold text-accent'>
           AR-Kiosk Dash
         </Link>
         <button
-          className='bg-accent rounded p-1 px-3 text-sm text-text'
+          className='bg-mid rounded p-1 px-3 text-sm text-purple'
           onClick={() => {
             setLogin(false);
           }}>
@@ -25,22 +24,22 @@ const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
         </button>
       </nav>
       <div className='flex gap-2 h-full'>
-        <section className='left-section bg-mid py-4 text-text h-full font-bold w-1/5 flex flex-col gap-2 items-center justify-start '>
-          <NavLink to={'/admin'} className='!text-text mb-4'>
+        <section className='text-accent left-section bg-purple py-4 text-text h-full font-bold w-1/5 flex flex-col gap-4 items-center justify-start '>
+          <NavLink to={'/admin'} className='!text-accent mb-4'>
             Dash
           </NavLink>
-          <NavLink to={'/admin/newimage'} className='text-text'>
+          <NavLink to={'/admin/newimage'} className='text-accent'>
             Insert New Image
           </NavLink>
-          <NavLink to={'/admin/deleteimage'} className='text-text'>
+          <NavLink to={'/admin/deleteimage'} className='text-accent'>
             Delete Image
           </NavLink>
-          <NavLink to={'/admin/arrangeimages'} className='text-text'>
+          <NavLink to={'/admin/arrangeimages'} className='text-accent'>
             Arrange Images
           </NavLink>
-          <NavLink to={'/admin/positionimage'} className='text-text'>
+          {/* <NavLink to={'/admin/positionimage'} className='text-accent'>
             Position Scaling
-          </NavLink>
+          </NavLink> */}
         </section>
         <section className='right-section p-4 h-full w-full'>
           {subpath === 'newimage' && <NewImagePanel socket={socket} />}

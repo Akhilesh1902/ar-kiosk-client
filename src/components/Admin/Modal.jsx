@@ -1,12 +1,21 @@
 import React from 'react';
 
-const Modal = ({ type }) => {
+const Modal = ({ type, handleSubmit, setModal }) => {
   return (
-    <div className='absolute w-fit h-fit text-text p-2 rounded flex flex-col items-center inset-1/2 bg-gray'>
+    <div className='absolute w-fit h-fit text-accent p-5 rounded flex flex-col gap-2 items-center inset-1/2 bg-gray'>
       <h1>{type === 'deletion' ? 'Confirm Delete' : 'Confirm Add Image'}</h1>
-      <div className='flex gap-2 text-text leading-none pt-4'>
-        <button className='bg-accent p-2 px-3 rounded'>Decline</button>
-        <button className='bg-mid  p-2 px-3 rounded'>Accept</button>
+      <div className='flex gap-6 text-purple leading-none pt-4'>
+        <button
+          className='bg-mid p-2 px-3 rounded'
+          onClick={() => {
+            alert('you declined to submit image');
+            setModal(false);
+          }}>
+          Decline
+        </button>
+        <button className='bg-accent  p-2 px-3 rounded' onClick={handleSubmit}>
+          Accept
+        </button>
       </div>
     </div>
   );

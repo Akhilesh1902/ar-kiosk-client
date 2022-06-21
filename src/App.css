@@ -1,3 +1,12 @@
+/*
+color pallette:
+
+Tutar Purple : #45108A
+Tutar Coral : #F15769
+Tutar Yellow : #EFC041
+
+*/
+
 .App {
   width: 100%;
 
@@ -7,11 +16,24 @@
 }
 
 .glass {
-  backdrop-filter: blur(10px) saturate(164%);
-  -webkit-backdrop-filter: blur(10px) saturate(164%);
-  background-color: rgba(52, 103, 81, 0.33);
+  backdrop-filter: blur(10px) saturate(100%);
+  -webkit-backdrop-filter: blur(10px) saturate(100%);
+  background-color: rgba(138, 104, 16, 0.23);
   border-radius: 12px;
   border: 1px solid rgba(209, 213, 219, 0.3);
+}
+
+kiosk-heading {
+  text-shadow: 0px 0px 5px rgba(138, 104, 16, 1);
+}
+
+button {
+  transition: transform 0.2s ease-in;
+  transform: scale(1);
+}
+
+button:hover {
+  transform: scale(1.1);
 }
 
 *::-webkit-scrollbar {
