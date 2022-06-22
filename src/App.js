@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 
 function App() {
   // const SERVER_URL = 'http://localhost:3030';
-  const SERVER_URL = 'https://ar-kiosk-proto.herokuapp.com';
+  const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
   const [socket, setSocket] = useState();
   useEffect(() => {

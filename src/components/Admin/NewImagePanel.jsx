@@ -33,6 +33,8 @@ const NewImagePanel = ({ socket }) => {
     console.log('uploading');
     // alert('Image being uploaded');
     socket.emit('_image_update', { imgData });
+    // setImgData({ ...imgData, name: '', file: null });
+    // image_input_ref.current.value = null;
     setModal(false);
   };
 
@@ -94,13 +96,13 @@ const NewImagePanel = ({ socket }) => {
               <div>
                 <p>Set Scale</p>
                 <input
-                  value={imgData.scale}
+                  value={imgData.scale * 200}
                   onChange={(e) =>
-                    setImgData({ ...imgData, scale: e.target.value })
+                    setImgData({ ...imgData, scale: e.target.value / 200 })
                   }
                   type='range'
                   min='20'
-                  max='100'
+                  max='200'
                 />
                 <p>Click on the canvas to position the image</p>
               </div>

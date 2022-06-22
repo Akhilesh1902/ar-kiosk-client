@@ -2,7 +2,7 @@ import React from 'react';
 
 const Modal = ({ type, handleSubmit, setModal }) => {
   return (
-    <div className='absolute w-fit h-fit text-accent p-5 rounded flex flex-col gap-2 items-center inset-1/2 bg-gray'>
+    <div className='z-10 absolute w-fit h-fit text-accent p-5 rounded flex flex-col gap-2 items-center inset-1/2 bg-gray'>
       <h1>{type === 'deletion' ? 'Confirm Delete' : 'Confirm Add Image'}</h1>
       <div className='flex gap-6 text-purple leading-none pt-4'>
         <button

@@ -87,7 +87,7 @@ const UI = (props) => {
           {/* <h1 className='font-bold pt-3 text-accent text-3xl  self-start '>
             AR KIOSK
           </h1> */}
-          <img src='/logo2.png' alt='TUTAR KIOSK' className='h-12 self-start' />
+          <img src='/logo3.png' alt='TUTAR KIOSK' className='h-10 self-start' />
           <h1 className='kiosk-heading font-bold text-accent self-start '>
             Select a Photo To Interact
           </h1>
@@ -122,7 +122,7 @@ const UI = (props) => {
       {vid && !pCanvas && !capturing ? (
         <div
           className={`button-container z-30 flex gap-5 p-2 px-4 rounded text-text font-bold text-xs ${
-            !vid ? '' : ' glass'
+            !vid ? '' : 'mt-36 glass'
           }`}>
           <button
             className='flex  flex-col  items-center gap-0'

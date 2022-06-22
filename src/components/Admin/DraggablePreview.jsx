@@ -8,28 +8,11 @@ const DraggablePreview = ({ imgData, setImgData }) => {
   const image_display_ref = useRef();
 
   useEffect(() => {
-    // const containerWidth = document.querySelector('#display-image').clientWidth;
-    // const containerHeight =
-    // document.querySelector('#display-image').clientHeight;
-    image_display_ref.current.style.height = `${imgData.scale * 2}px`;
-    // image_display_ref.current.style.top = `${
-    //   containerHeight * imgData.pos[1]
-    // }px`;
-    // image_display_ref.current.style.left = `${
-    //   containerWidth * imgData.pos[0]
-    // }px`;
+    image_display_ref.current.style.height = `${imgData.scale * 200}px`;
+    console.log(imgData.scale);
   }, [imgData.scale, imgData.pos]);
 
   useEffect(() => {
-    // const imageContainer = document.querySelector('#display-image');
-    // imageContainer.addEventListener('click', (e) => {
-    //   const posx =
-    //     (e.clientX - e.target.clientWidth) / e.target.clientWidth + 0.55;
-    //   const posy =
-    //     (e.clientY - e.target.clientHeight) / e.target.clientHeight - 0.35;
-    //   const pos = [Math.abs(posx), Math.abs(posy)];
-    //   setImgData((prev) => ({ ...prev, pos }));
-    // });
     const getVideo = async () => {
       const stream = await navigator.mediaDevices
         .getUserMedia({
@@ -47,19 +30,18 @@ const DraggablePreview = ({ imgData, setImgData }) => {
 
   const handleOnDrag = (e) => {
     const offsets = e.target.getBoundingClientRect();
-    const containerOffsets = e.target
-      .closest('#display-image')
-      .getBoundingClientRect();
+    const cOffsets = e.target.closest('#display-image').getBoundingClientRect();
     // .getBoundingClientRect();
-    console.log(containerOffsets);
+    // console.log(cOffsets);
+    // console.log(offsets);
 
-    const x =
-      (offsets.x - containerOffsets.x + offsets.width) / containerOffsets.x;
-    const y =
-      (offsets.y - containerOffsets.y + offsets.height) /
-      containerOffsets.height;
+    const x = (offsets.x - cOffsets.x + offsets.width) / cOffsets.width;
+    const y = (offsets.y - cOffsets.y + offsets.height) / cOffsets.height;
 
-    console.log(offsets.x - containerOffsets.x + offsets.width);
+    // console.log(offsets.x / (cOffsets.x + cOffsets.width - offsets.width));
+    // console.log(offsets.y / (cOffsets.y + cOffsets.height - offsets.height));
+
+    // console.log(offsets.x - cOffsets.x + offsets.width);
 
     // console.log(offsets);
 
@@ -68,8 +50,9 @@ const DraggablePreview = ({ imgData, setImgData }) => {
 
     const arr = [posX, posY];
 
-    console.log(arr);
+    // console.log(arr);
     // console.log(x, y);
+    setImgData({ ...imgData, pos: arr });
   };
 
   return (
