@@ -33,8 +33,8 @@ const NewImagePanel = ({ socket }) => {
     console.log('uploading');
     // alert('Image being uploaded');
     socket.emit('_image_update', { imgData });
-    // setImgData({ ...imgData, name: '', file: null });
-    // image_input_ref.current.value = null;
+    setImgData({ ...imgData, name: '', file: null });
+    image_input_ref.current.value = null;
     setModal(false);
   };
 

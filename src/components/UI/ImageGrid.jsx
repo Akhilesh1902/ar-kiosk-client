@@ -15,14 +15,25 @@ const ImageGrid = ({ setImage, allImg, image, setVid, SERVER_URL }) => {
     setVid(true);
   };
   return (
-    <div className='allImageGrid h-1/2 md:h-full overflow-y-scroll w-full flex justify-center content-start gap-2 flex-wrap p-5 '>
+    <div className='allImageGrid h-1/2 md:h-full overflow-y-scroll w-full flex justify-center content-start gap-2 flex-wrap p-5 mt-2  '>
       {allImg.map((data, i) => (
-        <div className='w-24 mr-1 h-24' key={data._id || data.name}>
+        <div
+          className='w-24 mr-1 h-24 bg-accent'
+          style={{
+            clipPath:
+              'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
+            padding: '2px',
+          }}
+          key={data._id || data.name}>
           <img
             src={`${SERVER_URL}${data.url}`}
             alt=''
             onClick={imageClick}
-            className='gridImg w-24 object-cover object-top h-full rounded bg-dark'
+            style={{
+              clipPath:
+                'polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%)',
+            }}
+            className='gridImg w-24 object-cover object-top h-full bg-dark '
           />
         </div>
       ))}

@@ -10,7 +10,11 @@ const DraggablePreview = ({ imgData, setImgData }) => {
   useEffect(() => {
     image_display_ref.current.style.height = `${imgData.scale * 200}px`;
     console.log(imgData.scale);
-  }, [imgData.scale, imgData.pos]);
+
+    if (imgData.file == null) {
+      image_display_ref.current.src = '';
+    }
+  }, [imgData.scale, imgData.pos, imgData.file]);
 
   useEffect(() => {
     const getVideo = async () => {
