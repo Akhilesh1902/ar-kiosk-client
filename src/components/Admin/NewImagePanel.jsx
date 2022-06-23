@@ -5,18 +5,37 @@ import DraggablePreview from './DraggablePreview';
 const NewImagePanel = ({ socket }) => {
   const image_input_ref = useRef();
   const [modal, setModal] = useState();
-
+  const thumbRef = useRef();
   const [imgData, setImgData] = useState({
     name: '',
+    thumbName: '',
     type: 'addition',
     file: null,
+    thumbnail: null,
     scale: 20,
     pos: [0.5, 0.5],
   });
 
   const onFileCange = (e) => {
-    const IURL = URL.createObjectURL(e.target.files[0]);
-    setImgData({ ...imgData, file: e.target.files[0], url: IURL });
+    console.log(e.target.id);
+    if (e.target.id === 'image-input') {
+      const IURL = URL.createObjectURL(e.target.files[0]);
+      const imageName = e.target.files[0].name;
+      setImgData({
+        ...imgData,
+        file: e.target.files[0],
+        url: IURL,
+        name: imageName,
+      });
+      return;
+    } else {
+      const IURL = URL.createObjectURL(e.target.files[0]);
+      thumbRef.current.style.backgroundImage = `url(${IURL})`;
+      console.log(e.target.files[0]);
+      const thumbName = e.target.files[0].name;
+      console.log(e.target.files[0].name);
+      setImgData({ ...imgData, thumbnail: e.target.files[0], thumbName });
+    }
     // image_display_ref.current.src = IURL;
     console.log(imgData);
   };
@@ -35,6 +54,7 @@ const NewImagePanel = ({ socket }) => {
     socket.emit('_image_update', { imgData });
     setImgData({ ...imgData, name: '', file: null });
     image_input_ref.current.value = null;
+    thumbRef.current.style.backgroundImage = `none`;
     setModal(false);
   };
 
@@ -51,16 +71,33 @@ const NewImagePanel = ({ socket }) => {
           <div className='flex w-full justify-between gap-3'>
             <div className='flex  flex-col gap-3'>
               {/* <h2 className=' '>Add more Images to Kiosk</h2> */}
-              <input
+              {/* <input
                 type='text'
                 value={imgData.name}
                 onChange={(e) => {
-                  setImgData({ ...imgData, name: e.target.value });
+                  // setImgData({ ...imgData, name: e.target.value });
                 }}
                 placeholder='Enter image name with extension'
                 className='p-1 px-2 self-start'
-              />
+              /> */}
+              <div>
+                <p>Add in thumbnail</p>
+                <div className='flex'>
+                  <div
+                    ref={thumbRef}
+                    className='bg-accent w-20 h-20 !bg-cover !bg-top'></div>
+                  <input
+                    ref={image_input_ref}
+                    type='file'
+                    id='thumbnail-input'
+                    accept='image/jpeg, image/png,image/jpg'
+                    required
+                    onChange={onFileCange}
+                  />
+                </div>
+              </div>
               <div className='flex flex-col'>
+                <p>Add in image</p>
                 <input
                   ref={image_input_ref}
                   type='file'
@@ -74,22 +111,6 @@ const NewImagePanel = ({ socket }) => {
                 </span>
               </div>
               <DraggablePreview imgData={imgData} setImgData={setImgData} />
-              {/* <div
-                id='display-image'
-                className='w-full h-52 flex overflow-hidden bg-dark bg-center bg-cover rounded aspect-video z-10 relative'>
-                <video
-                  autoPlay
-                  playsInline
-                  ref={userVid}
-                  className=' h-full w-full absolute object-cover z-20'></video>
-                <img
-                  ref={image_display_ref}
-                  src=''
-                  alt=''
-                  id='preview_image'
-                  className=' absolute top-50 left-50 z-30'
-                />
-              </div> */}
             </div>
             <div className='flex flex-col'>
               <h1>Add postion and scaling setting</h1>

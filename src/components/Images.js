@@ -6,9 +6,9 @@ const Images = ({ image, SERVER_URL }) => {
 
   useEffect(() => {
     if (image) {
-      console.log(image.pos);
       imgRef.current.style.left = `${image.pos[0] * window.innerWidth}px`;
       imgRef.current.style.top = `${image.pos[1] * window.innerHeight}px`;
+      imgRef.current.style.height = `${image.scale * 200}`;
     }
     // eslint-disable-next-line
   }, [image?.name, imgRef]);
@@ -18,9 +18,10 @@ const Images = ({ image, SERVER_URL }) => {
       <img
         ref={imgRef}
         id='image'
-        className=' absolute w-50 h-50 '
+        className=' absolute w-50'
         src={SERVER_URL + image?.url}
         alt=''
+        style={{ height: `${image?.scale * 200}px` }}
       />
     </div>
   );

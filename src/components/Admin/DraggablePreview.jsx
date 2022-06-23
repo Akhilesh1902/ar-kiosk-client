@@ -3,13 +3,13 @@ import { useRef, useEffect } from 'react';
 import Draggable from 'react-draggable';
 
 const DraggablePreview = ({ imgData, setImgData }) => {
-  console.log(imgData);
+  // console.log(imgData);
   const userVid = useRef();
   const image_display_ref = useRef();
 
   useEffect(() => {
     image_display_ref.current.style.height = `${imgData.scale * 200}px`;
-    console.log(imgData.scale);
+    // console.log(imgData.scale);
 
     if (imgData.file == null) {
       image_display_ref.current.src = '';
@@ -36,11 +36,9 @@ const DraggablePreview = ({ imgData, setImgData }) => {
     const offsets = e.target.getBoundingClientRect();
     const cOffsets = e.target.closest('#display-image').getBoundingClientRect();
     // .getBoundingClientRect();
-    // console.log(cOffsets);
-    // console.log(offsets);
 
-    const x = (offsets.x - cOffsets.x + offsets.width) / cOffsets.width;
-    const y = (offsets.y - cOffsets.y + offsets.height) / cOffsets.height;
+    const x = (offsets.x - cOffsets.x) / cOffsets.width;
+    const y = (offsets.y - cOffsets.y) / cOffsets.height;
 
     // console.log(offsets.x / (cOffsets.x + cOffsets.width - offsets.width));
     // console.log(offsets.y / (cOffsets.y + cOffsets.height - offsets.height));

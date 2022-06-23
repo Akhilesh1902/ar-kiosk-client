@@ -3,7 +3,7 @@ const ImageGrid = ({ setImage, allImg, image, setVid, SERVER_URL }) => {
     const i = e.target.src;
     const curImg = document.querySelector('#image');
     const curImgData = allImg.find(
-      (data) => data.url === `/static${i.split('static')[1]}`
+      (data) => data.thumbUrl === `/static${i.split('static')[1]}`
     );
     if (image === i) {
       setImage('');
@@ -26,7 +26,7 @@ const ImageGrid = ({ setImage, allImg, image, setVid, SERVER_URL }) => {
           }}
           key={data._id || data.name}>
           <img
-            src={`${SERVER_URL}${data.url}`}
+            src={`${SERVER_URL}${data.thumbUrl}`}
             alt=''
             onClick={imageClick}
             style={{
