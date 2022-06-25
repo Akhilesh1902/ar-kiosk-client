@@ -1,12 +1,15 @@
 import React, { useRef, useState, useEffect } from 'react';
 import Images from '../components/Images';
 import UI from '../components/UI';
+import Video from '../components/Video';
 
 const Kiosk = ({ socket, SERVER_URL }) => {
   const userVid = useRef();
 
   const [image, setImage] = useState(null);
   const [vid, setVid] = useState(false);
+
+  console.log(image);
 
   useEffect(() => {
     if (!vid) {
@@ -48,7 +51,12 @@ const Kiosk = ({ socket, SERVER_URL }) => {
           playsInline
           className='h-screen w-screen absolute object-cover'></video>
 
-        <Images image={image} SERVER_URL={SERVER_URL} />
+        {image?.type === 'video' && (
+          <Video video={image} SERVER_URL={SERVER_URL} />
+        )}
+        {image?.type === 'image' && (
+          <Images image={image} SERVER_URL={SERVER_URL} />
+        )}
       </div>
       <UI
         socket={socket}

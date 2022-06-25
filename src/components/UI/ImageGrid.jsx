@@ -1,16 +1,18 @@
 const ImageGrid = ({ setImage, allImg, image, setVid, SERVER_URL }) => {
+  console.log(allImg);
   const imageClick = (e) => {
     const i = e.target.src;
-    const curImg = document.querySelector('#image');
+    // const curImg = document.querySelector('#image');
     const curImgData = allImg.find(
-      (data) => data.thumbUrl === `/static${i.split('static')[1]}`
+      (data) => data.thumbnailUrl === `/static${i.split('static')[1]}`
     );
-    if (image === i) {
-      setImage('');
-      curImg.style.display = 'none';
-      return;
-    }
-    curImg.style.display = 'block';
+    // console.log(curImg);
+    // if (image === i) {
+    //   setImage('');
+    //   curImg.style.display = 'none';
+    //   return;
+    // }
+    // curImg.style.display = 'block';
     setImage(curImgData);
     setVid(true);
   };
@@ -26,7 +28,7 @@ const ImageGrid = ({ setImage, allImg, image, setVid, SERVER_URL }) => {
           }}
           key={data._id || data.name}>
           <img
-            src={`${SERVER_URL}${data.thumbUrl}`}
+            src={`${SERVER_URL}${data.thumbnailUrl}`}
             alt=''
             onClick={imageClick}
             style={{

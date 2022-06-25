@@ -5,6 +5,7 @@ import DeleteImagePanel from './DeleteImagePanel';
 import ImagePositioning from './ImagePositioning';
 // import Modal from './Modal';
 import NewImagePanel from './NewImagePanel';
+import NewVideoPanel from './NewVideoPanel';
 
 const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
   const { subpath } = useParams();
@@ -31,6 +32,9 @@ const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
           <NavLink to={'/admin/newimage'} className='text-accent'>
             Insert New Image
           </NavLink>
+          <NavLink to={'/admin/newvideo'} className='text-accent'>
+            Insert New Video
+          </NavLink>
           <NavLink to={'/admin/deleteimage'} className='text-accent'>
             Delete Image
           </NavLink>
@@ -51,6 +55,9 @@ const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
           )}
           {subpath === 'positionimage' && (
             <ImagePositioning SERVER_URL={SERVER_URL} socket={socket} />
+          )}
+          {subpath === 'newvideo' && (
+            <NewVideoPanel SERVER_URL={SERVER_URL} socket={socket} />
           )}
           {subpath === undefined && (
             <>

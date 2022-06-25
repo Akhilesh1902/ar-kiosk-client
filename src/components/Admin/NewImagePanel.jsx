@@ -9,7 +9,7 @@ const NewImagePanel = ({ socket }) => {
   const [imgData, setImgData] = useState({
     name: '',
     thumbName: '',
-    type: 'addition',
+    type: 'image',
     file: null,
     thumbnail: null,
     scale: 20,
@@ -19,6 +19,7 @@ const NewImagePanel = ({ socket }) => {
   const onFileCange = (e) => {
     console.log(e.target.id);
     if (e.target.id === 'image-input') {
+      console.log(e.target.files[0]);
       const IURL = URL.createObjectURL(e.target.files[0]);
       const imageName = e.target.files[0].name;
       setImgData({
@@ -51,8 +52,8 @@ const NewImagePanel = ({ socket }) => {
     }
     console.log('uploading');
     // alert('Image being uploaded');
-    socket.emit('_image_update', { imgData });
-    setImgData({ ...imgData, name: '', file: null });
+    socket.emit('_image_update', { imgData, updateType: 'addition' });
+    setImgData({ ...imgData, name: '', file: null, thumbnail: null });
     image_input_ref.current.value = null;
     thumbRef.current.style.backgroundImage = `none`;
     setModal(false);
@@ -70,16 +71,6 @@ const NewImagePanel = ({ socket }) => {
           className='image-form w-full flex  gap-3 mt-4'>
           <div className='flex w-full justify-between gap-3'>
             <div className='flex  flex-col gap-3'>
-              {/* <h2 className=' '>Add more Images to Kiosk</h2> */}
-              {/* <input
-                type='text'
-                value={imgData.name}
-                onChange={(e) => {
-                  // setImgData({ ...imgData, name: e.target.value });
-                }}
-                placeholder='Enter image name with extension'
-                className='p-1 px-2 self-start'
-              /> */}
               <div>
                 <p>Add in thumbnail</p>
                 <div className='flex'>
@@ -90,7 +81,7 @@ const NewImagePanel = ({ socket }) => {
                     ref={image_input_ref}
                     type='file'
                     id='thumbnail-input'
-                    accept='image/jpeg, image/png,image/jpg'
+                    accept='image/jpeg, image/png,image/jpg,.mp4'
                     required
                     onChange={onFileCange}
                   />

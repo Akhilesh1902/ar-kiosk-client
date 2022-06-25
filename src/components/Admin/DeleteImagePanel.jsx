@@ -14,7 +14,8 @@ const DeleteImagePanel = ({ socket, SERVER_URL }) => {
     const imageName = imageRef.current.src.split('/')[5];
     console.log(imageName);
     socket.emit('_image_update', {
-      imgData: { name: imageName, type: 'deletion' },
+      imgData: { name: imageName },
+      updateType: 'deletion',
     });
     setModal(false);
   };
