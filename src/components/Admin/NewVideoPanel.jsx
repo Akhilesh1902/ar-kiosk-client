@@ -20,6 +20,8 @@ const NewVideoPanel = ({ socket }) => {
 
   useEffect(() => {
     const video = new VideoUtil(userVid.current, c1.current, c2.current);
+    console.log(video);
+    // eslint-disable-next-line
   }, [userVid.current, c1.current, c2.current]);
 
   const onFileCange = (e) => {
