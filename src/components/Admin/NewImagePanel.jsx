@@ -1,8 +1,8 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Modal from './Modal';
 import DraggablePreview from './DraggablePreview';
 
-const NewImagePanel = ({ socket }) => {
+const NewImagePanel = ({ socket, SERVER_URL }) => {
   const image_input_ref = useRef();
   const [modal, setModal] = useState();
   const thumbRef = useRef();
@@ -40,6 +40,23 @@ const NewImagePanel = ({ socket }) => {
     // image_display_ref.current.src = IURL;
     console.log(imgData);
   };
+
+  useEffect(() => {
+    socket.on('_scuccess', (addr) => {
+      console.log('upload success');
+      alert('Your File Uploaded Successfully');
+      console.log(SERVER_URL + addr);
+    });
+
+    socket.on('_exist_in_dataBase', (result) => {
+      alert('file already exist in database try changing file name');
+      console.log(result);
+    });
+    return () => {
+      // socket.off('_scuccess');
+      // socket.off('_exist_in_dataBase');
+    };
+  }, [socket, SERVER_URL]);
 
   const handleSubmit = (e) => {
     console.log('submitting image');

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiFillCamera, AiFillVideoCamera } from 'react-icons/ai';
 import html2canvas from 'html2canvas';
 import EmailModal from './UI/EmailModal';
@@ -17,6 +17,21 @@ const UI = (props) => {
   const [allImg] = useGetImageArray(SERVER_URL, socket);
 
   let capTimeOut;
+
+  useEffect(() => {
+    socket.on('email_success', () => {
+      console.log('email sent Succussfully');
+      alert('Email sent successfully');
+    });
+
+    socket.on('_email_error', () => {
+      console.log('an error has occured in email');
+    });
+
+    return () => {
+      socket.off('email_success');
+    };
+  });
 
   const handleCapture = async () => {
     if (capTimeOut) return;

@@ -2,7 +2,6 @@ import React from 'react';
 import { Link, NavLink, useParams } from 'react-router-dom';
 import ArrangeImages from './ArrangeImages';
 import DeleteImagePanel from './DeleteImagePanel';
-import ImagePositioning from './ImagePositioning';
 // import Modal from './Modal';
 import NewImagePanel from './NewImagePanel';
 import NewVideoPanel from './NewVideoPanel';
@@ -41,21 +40,18 @@ const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
           <NavLink to={'/admin/arrangeimages'} className='text-accent'>
             Arrange Images
           </NavLink>
-          {/* <NavLink to={'/admin/positionimage'} className='text-accent'>
-            Position Scaling
-          </NavLink> */}
         </section>
         <section className='right-section p-4 h-full w-full'>
-          {subpath === 'newimage' && <NewImagePanel socket={socket} />}
+          {subpath === 'newimage' && (
+            <NewImagePanel SERVER_URL={SERVER_URL} socket={socket} />
+          )}
           {subpath === 'deleteimage' && (
             <DeleteImagePanel SERVER_URL={SERVER_URL} socket={socket} />
           )}
           {subpath === 'arrangeimages' && (
             <ArrangeImages SERVER_URL={SERVER_URL} socket={socket} />
           )}
-          {subpath === 'positionimage' && (
-            <ImagePositioning SERVER_URL={SERVER_URL} socket={socket} />
-          )}
+
           {subpath === 'newvideo' && (
             <NewVideoPanel SERVER_URL={SERVER_URL} socket={socket} />
           )}

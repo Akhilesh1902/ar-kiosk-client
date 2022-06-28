@@ -23,8 +23,8 @@ const Video = ({ video, SERVER_URL }) => {
 
   return (
     <>
-      <div className=' z-20 absolute h-screen w-screen'>
-        <canvas className='z-30 !h-screen' id='c2' ref={c2}></canvas>
+      <div className=' z-20 absolute flex  h-screen w-screen'>
+        <canvas className='z-30 w-full self-center' id='c2' ref={c2}></canvas>
       </div>
       <canvas id='c1' className='z-30 hidden' ref={c1}></canvas>
       <video

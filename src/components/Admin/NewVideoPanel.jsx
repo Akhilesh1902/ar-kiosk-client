@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Modal from './Modal';
 import { VideoUtil } from '../utils/videoUtil';
+import DraggablePreview from './DraggablePreview';
 
-const NewVideoPanel = ({ socket }) => {
+const NewVideoPanel = ({ socket, SERVER_URL }) => {
   const [modal, setModal] = useState(false);
   const image_input_ref = useRef();
   const thumbRef = useRef();
@@ -30,13 +31,31 @@ const NewVideoPanel = ({ socket }) => {
     const IURL = URL.createObjectURL(file);
     if (file.type === 'video/mp4') {
       console.log(file);
-      setVideoData({ ...videoData, name: file.name, file });
+      setVideoData({ ...videoData, name: file.name.replace(/ /g, '_'), file });
       userVid.current.src = IURL;
     } else {
       setVideoData({ ...videoData, thumbName: file.name, thumbnail: file });
       thumbRef.current.style.backgroundImage = `url(${IURL})`;
     }
   };
+
+  useEffect(() => {
+    socket.on('_scuccess', (addr) => {
+      console.log('upload success');
+      alert('Your File Uploaded Successfully');
+      console.log(SERVER_URL + addr);
+    });
+
+    socket.on('_exist_in_dataBase', (result) => {
+      alert('file already exist in database try changing file name');
+      console.log(result);
+    });
+    return () => {
+      socket.off('_scuccess');
+
+      socket.off('_exist_in_dataBase');
+    };
+  }, [socket, SERVER_URL]);
 
   const handleSubmit = () => {
     socket.emit('_image_update', {
@@ -85,7 +104,7 @@ const NewVideoPanel = ({ socket }) => {
                   onChange={onFileCange}
                 />
                 <span className='p-0 m-0 leading-none ml-2 text-xs  italic'>
-                  max-size:3.5mb
+                  max-size:8.5mb
                 </span>
                 <div
                   id='display-image'
@@ -102,7 +121,12 @@ const NewVideoPanel = ({ socket }) => {
                     playsInline
                     className=' cursor-move absolute !select-none top-50 left-50 z-30'
                   /> */}
-                  <canvas id='c2' ref={c2}></canvas>
+                  <DraggablePreview
+                    imgData={videoData}
+                    setImgData={setVideoData}
+                    c2={c2}
+                  />
+                  {/* <canvas id='c2' ref={c2}></canvas> */}
                 </div>
               </div>
             </div>
@@ -115,7 +139,7 @@ const NewVideoPanel = ({ socket }) => {
                 loop
                 className=' cursor-move w-80 !select-none top-50 left-50 z-30'
               />
-              <canvas id='c1' className='hidden' ref={c1}></canvas>
+              <canvas id='c1' className='' ref={c1}></canvas>
             </div>
           </div>
 
