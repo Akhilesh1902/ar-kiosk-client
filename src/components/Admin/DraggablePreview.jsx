@@ -67,7 +67,7 @@ const DraggablePreview = ({ imgData, setImgData, c2 }) => {
         ref={userVid}
         className=' h-full w-full absolute object-cover z-20'></video>
       <Draggable onDrag={handleOnDrag}>
-        {imgData.type === 'video' ? (
+        {imgData.type === 'video/mp4' ? (
           <div className='cursor-move absolute z-30'>
             <canvas
               id='c2'

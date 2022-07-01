@@ -1,8 +1,5 @@
 export class VideoUtil {
   constructor(_video, c1, c2) {
-    // console.log(_video);
-    // console.log(c1);
-    // console.log(c2);
     this.video = _video;
     this.c1 = c1;
     this.ctx1 = this.c1.getContext('2d');
@@ -14,7 +11,6 @@ export class VideoUtil {
       self.width = self.video.getBoundingClientRect().width;
       //   self.height = self.video.videoHeight;
       self.height = self.video.getBoundingClientRect().height;
-      console.log(this.width, this.height);
       self.timerCallback();
     });
   }
@@ -31,8 +27,6 @@ export class VideoUtil {
   }
 
   computeFrame() {
-    // console.log(this.width, this.height);
-    // console.log(this.ctx1);
     this.ctx1.drawImage(this.video, 0, 0, this.width, this.height);
     let frame = this.ctx1.getImageData(0, 0, this.width, this.height);
     const l = frame.data.length / 4;

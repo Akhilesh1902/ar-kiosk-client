@@ -9,7 +9,7 @@ const Kiosk = ({ socket, SERVER_URL }) => {
   const [image, setImage] = useState(null);
   const [vid, setVid] = useState(false);
 
-  console.log(image);
+  // console.log(image);
 
   useEffect(() => {
     if (!vid) {
@@ -51,10 +51,10 @@ const Kiosk = ({ socket, SERVER_URL }) => {
           playsInline
           className='h-screen w-screen absolute object-cover'></video>
 
-        {image?.type === 'video' && (
+        {image?.type?.includes('video') && (
           <Video video={image} SERVER_URL={SERVER_URL} />
         )}
-        {image?.type === 'image' && (
+        {image?.type?.includes('image') && (
           <Images image={image} SERVER_URL={SERVER_URL} />
         )}
       </div>

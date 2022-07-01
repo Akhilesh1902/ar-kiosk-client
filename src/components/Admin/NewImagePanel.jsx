@@ -4,6 +4,7 @@ import DraggablePreview from './DraggablePreview';
 
 const NewImagePanel = ({ socket, SERVER_URL }) => {
   const image_input_ref = useRef();
+  const thumb_input_ref = useRef();
   const [modal, setModal] = useState();
   const thumbRef = useRef();
   const [imgData, setImgData] = useState({
@@ -12,30 +13,36 @@ const NewImagePanel = ({ socket, SERVER_URL }) => {
     type: 'image',
     file: null,
     thumbnail: null,
-    scale: 20,
+    scale: 1,
     pos: [0.5, 0.5],
   });
 
   const onFileCange = (e) => {
     console.log(e.target.id);
+    const file = e.target.files[0];
     if (e.target.id === 'image-input') {
-      console.log(e.target.files[0]);
-      const IURL = URL.createObjectURL(e.target.files[0]);
-      const imageName = e.target.files[0].name;
+      console.log(file);
+      const IURL = URL.createObjectURL(file);
+      const name = file.name;
       setImgData({
         ...imgData,
-        file: e.target.files[0],
+        file,
         url: IURL,
-        name: imageName,
+        name,
       });
       return;
     } else {
-      const IURL = URL.createObjectURL(e.target.files[0]);
+      const IURL = URL.createObjectURL(file);
       thumbRef.current.style.backgroundImage = `url(${IURL})`;
-      console.log(e.target.files[0]);
-      const thumbName = e.target.files[0].name;
-      console.log(e.target.files[0].name);
-      setImgData({ ...imgData, thumbnail: e.target.files[0], thumbName });
+      console.log(file);
+      const thumbName = file.name;
+      console.log(file.name);
+      setImgData({
+        ...imgData,
+        thumbnail: file,
+        thumbName,
+        type: file.type,
+      });
     }
     // image_display_ref.current.src = IURL;
     console.log(imgData);
@@ -72,6 +79,7 @@ const NewImagePanel = ({ socket, SERVER_URL }) => {
     socket.emit('_image_update', { imgData, updateType: 'addition' });
     setImgData({ ...imgData, name: '', file: null, thumbnail: null });
     image_input_ref.current.value = null;
+    thumb_input_ref.current.value = null;
     thumbRef.current.style.backgroundImage = `none`;
     setModal(false);
   };
@@ -95,7 +103,7 @@ const NewImagePanel = ({ socket, SERVER_URL }) => {
                     ref={thumbRef}
                     className='bg-accent w-20 h-20 !bg-cover !bg-top'></div>
                   <input
-                    ref={image_input_ref}
+                    ref={thumb_input_ref}
                     type='file'
                     id='thumbnail-input'
                     accept='image/jpeg, image/png,image/jpg,.mp4'

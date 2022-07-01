@@ -109,6 +109,7 @@ const UI = (props) => {
           <ImageGrid
             setVid={setVid}
             // allImages={allImages}
+            socket={socket}
             allImg={allImg}
             SERVER_URL={SERVER_URL}
             setImage={setImage}

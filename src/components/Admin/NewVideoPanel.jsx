@@ -5,7 +5,8 @@ import DraggablePreview from './DraggablePreview';
 
 const NewVideoPanel = ({ socket, SERVER_URL }) => {
   const [modal, setModal] = useState(false);
-  const image_input_ref = useRef();
+  const video_imput_ref = useRef();
+  const thumb_input_ref = useRef();
   const thumbRef = useRef();
   const userVid = useRef();
   const userCam = useRef();
@@ -14,7 +15,7 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
   const [videoData, setVideoData] = useState({
     name: '',
     thumbName: '',
-    type: 'video',
+    type: 'video/mp4',
     file: null,
     thumbnail: null,
   });
@@ -31,7 +32,12 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
     const IURL = URL.createObjectURL(file);
     if (file.type === 'video/mp4') {
       console.log(file);
-      setVideoData({ ...videoData, name: file.name.replace(/ /g, '_'), file });
+      setVideoData({
+        ...videoData,
+        type: file.type,
+        name: file.name.replace(/ /g, '_'),
+        file,
+      });
       userVid.current.src = IURL;
     } else {
       setVideoData({ ...videoData, thumbName: file.name, thumbnail: file });
@@ -62,6 +68,16 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
       imgData: { ...videoData },
       updateType: 'video',
     });
+    userVid.current.src = null;
+    thumbRef.current.style.backgroundImage = `none`;
+    thumb_input_ref.current.value = null;
+    video_imput_ref.current.value = null;
+    c1.current
+      .getContext('2d')
+      .clearRect(0, 0, c1.current.width, c1.current.height);
+    c2.current
+      .getContext('2d')
+      .clearRect(0, 0, c2.current.width, c2.current.height);
     setModal(false);
   };
 
@@ -84,7 +100,7 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
                     ref={thumbRef}
                     className='bg-accent w-20 h-20 !bg-cover !bg-top'></div>
                   <input
-                    ref={image_input_ref}
+                    ref={thumb_input_ref}
                     type='file'
                     id='thumbnail-input'
                     accept='image/jpeg, image/png,image/jpg,.mp4'
@@ -96,7 +112,7 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
               <div className='flex  flex-col'>
                 <p>Add in image</p>
                 <input
-                  ref={image_input_ref}
+                  ref={video_imput_ref}
                   type='file'
                   id='image-input'
                   accept='.mp4'

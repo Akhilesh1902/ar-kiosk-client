@@ -1,21 +1,33 @@
-const ImageGrid = ({ setImage, allImg, image, setVid, SERVER_URL }) => {
-  console.log(allImg);
+import { useEffect, useState, useCallback } from 'react';
+
+const ImageGrid = ({ setImage, socket, allImg, image, setVid, SERVER_URL }) => {
+  // console.log(allImg);
+
+  const [curData, setCurData] = useState([]);
+  // let object;
+
   const imageClick = (e) => {
-    const i = e.target.src;
-    // const curImg = document.querySelector('#image');
-    const curImgData = allImg.find(
-      (data) => data.thumbnailUrl === `/static${i.split('static')[1]}`
+    const element = e.target;
+    const obj = allImg.find(
+      (item) => item.name === element.getAttribute('data-name')
     );
-    // console.log(curImg);
-    // if (image === i) {
-    //   setImage('');
-    //   curImg.style.display = 'none';
-    //   return;
-    // }
-    // curImg.style.display = 'block';
-    setImage(curImgData);
-    setVid(true);
+    // console.log(obj);
+    setCurData(obj);
+    socket.emit('get_file', { Key: obj.fileAddr });
   };
+
+  const handleFile = useCallback(
+    ({ Data }) => {
+      setImage({ ...curData, Data });
+      setVid(true);
+    },
+    [curData, setImage, setVid]
+  );
+
+  useEffect(() => {
+    socket.off('get_file').on('get_file', handleFile);
+  }, [socket, handleFile]);
+
   return (
     <div className='allImageGrid h-1/2 md:h-full overflow-y-scroll w-full flex justify-center content-start gap-2 flex-wrap p-5 mt-2  '>
       {allImg.map((data, i) => (
@@ -28,7 +40,9 @@ const ImageGrid = ({ setImage, allImg, image, setVid, SERVER_URL }) => {
           }}
           key={data._id || data.name}>
           <img
-            src={`${SERVER_URL}${data.thumbnailUrl}`}
+            // src={`${SERVER_URL}${data.thumbnailUrl}`}
+            data-name={data.name}
+            src={`data:image/jpeg;base64,` + data.thumb}
             alt=''
             onClick={imageClick}
             style={{

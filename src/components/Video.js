@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { VideoUtil } from './utils/videoUtil';
 
 const Video = ({ video, SERVER_URL }) => {
-  console.log(video);
+  // console.log(video);
 
   console.log('remdering video');
   const video_ref = useRef();
@@ -11,7 +11,14 @@ const Video = ({ video, SERVER_URL }) => {
 
   useEffect(() => {
     video_ref.current.crossOrigin = 'anonymous';
-    video_ref.current.src = `${SERVER_URL}${video.url}`;
+    // video_ref.current.src = `${SERVER_URL}${video.url}`;
+
+    const arrayBufferView = new Uint8Array(video.Data);
+    const blob = new Blob([arrayBufferView], { type: 'image/jpeg' });
+    var urlCreator = window.URL || window.webkitURL;
+    var imageUrl = urlCreator.createObjectURL(blob);
+    video_ref.current.src = imageUrl;
+
     // eslint-disable-next-line
   }, [SERVER_URL]);
 
