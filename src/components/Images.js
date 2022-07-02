@@ -10,7 +10,7 @@ const Images = ({ image, SERVER_URL }) => {
     if (image) {
       imgRef.current.style.left = `${image.pos[0] * window.innerWidth}px`;
       imgRef.current.style.top = `${image.pos[1] * window.innerHeight}px`;
-      imgRef.current.style.height = `${image.scale * 200}`;
+      imgRef.current.style.height = `${image.scale * window.innerHeight}`;
 
       const arrayBufferView = new Uint8Array(image.Data);
       const blob = new Blob([arrayBufferView], { type: 'image/jpeg' });
@@ -29,7 +29,7 @@ const Images = ({ image, SERVER_URL }) => {
         className=' absolute w-50'
         src=''
         alt=''
-        style={{ height: `${image?.scale * 200}px` }}
+        style={{ height: `${image?.scale * window.innerHeight}px` }}
       />
     </div>
   );

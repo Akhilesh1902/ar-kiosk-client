@@ -14,7 +14,7 @@ const NewImagePanel = ({ socket, SERVER_URL }) => {
     file: null,
     thumbnail: null,
     scale: 1,
-    pos: [0.5, 0.5],
+    pos: [0, 0],
   });
 
   const onFileCange = (e) => {
