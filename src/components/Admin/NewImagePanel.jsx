@@ -45,7 +45,6 @@ const NewImagePanel = ({ socket, SERVER_URL }) => {
       });
     }
     // image_display_ref.current.src = IURL;
-    console.log(imgData);
   };
 
   useEffect(() => {

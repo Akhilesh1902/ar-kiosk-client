@@ -35,25 +35,13 @@ const DraggablePreview = ({ imgData, setImgData, c2 }) => {
   const handleOnDrag = (e) => {
     const offsets = e.target.getBoundingClientRect();
     const cOffsets = e.target.closest('#display-image').getBoundingClientRect();
-    // .getBoundingClientRect();
 
     const x = (offsets.x - cOffsets.x) / cOffsets.width;
     const y = (offsets.y - cOffsets.y) / cOffsets.height;
 
-    // console.log(offsets.x / (cOffsets.x + cOffsets.width - offsets.width));
-    // console.log(offsets.y / (cOffsets.y + cOffsets.height - offsets.height));
-
-    // console.log(offsets.x - cOffsets.x + offsets.width);
-
-    // console.log(offsets);
-
     const posX = x > 1 ? 1 : x < 0 ? 0 : x;
     const posY = y > 1 ? 1 : y < 0 ? 0 : y;
-
     const arr = [posX, posY];
-
-    // console.log(arr);
-    // console.log(x, y);
     setImgData({ ...imgData, pos: arr });
   };
 

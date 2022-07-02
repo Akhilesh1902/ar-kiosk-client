@@ -2,8 +2,6 @@ import React, { useRef, useEffect } from 'react';
 import { VideoUtil } from './utils/videoUtil';
 
 const Video = ({ video, SERVER_URL }) => {
-  // console.log(video);
-
   console.log('remdering video');
   const video_ref = useRef();
   const c1 = useRef();
@@ -23,8 +21,17 @@ const Video = ({ video, SERVER_URL }) => {
   }, [SERVER_URL]);
 
   useEffect(() => {
-    const video = new VideoUtil(video_ref.current, c1.current, c2.current);
-    console.log(video);
+    if (video) {
+      const videoUtil = new VideoUtil(
+        video_ref.current,
+        c1.current,
+        c2.current,
+        video.tolerance
+      );
+      videoUtil.tolerance = video.chromaKey;
+    }
+    // console.log(video);
+    // console.log(video_ref.current);
     // eslint-disable-next-line
   }, [video_ref.current, c1.current, c2.current]);
 
@@ -39,7 +46,7 @@ const Video = ({ video, SERVER_URL }) => {
         autoPlay
         loop
         ref={video_ref}
-        className='!h-40 '></video>
+        className='!h-screen '></video>
     </>
   );
 };

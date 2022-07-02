@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Modal from './Modal';
 import { VideoUtil } from '../utils/videoUtil';
 import DraggablePreview from './DraggablePreview';
+// import ColorControllor from './ColorControllor';
 
 const NewVideoPanel = ({ socket, SERVER_URL }) => {
   const [modal, setModal] = useState(false);
@@ -12,17 +13,27 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
   const userCam = useRef();
   const c1 = useRef();
   const c2 = useRef();
+  const [videoUtils, setVideoUtils] = useState();
+  const [tolerance, setTolerance] = useState(100);
   const [videoData, setVideoData] = useState({
     name: '',
     thumbName: '',
     type: 'video/mp4',
     file: null,
     thumbnail: null,
+    chromaKey: 100,
   });
 
   useEffect(() => {
+    if (videoUtils) videoUtils.tolerance = tolerance;
+    setVideoData({ ...videoData, chromaKey: tolerance });
+    //eslint-disable-next-line
+  }, [tolerance, videoUtils]);
+
+  useEffect(() => {
     const video = new VideoUtil(userVid.current, c1.current, c2.current);
-    console.log(video);
+    // console.log(video);
+    setVideoUtils(video);
     // eslint-disable-next-line
   }, [userVid.current, c1.current, c2.current]);
 
@@ -31,7 +42,7 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
 
     const IURL = URL.createObjectURL(file);
     if (file.type === 'video/mp4') {
-      console.log(file);
+      // console.log(file);
       setVideoData({
         ...videoData,
         type: file.type,
@@ -49,7 +60,6 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
     socket.on('_scuccess', (addr) => {
       console.log('upload success');
       alert('Your File Uploaded Successfully');
-      console.log(SERVER_URL + addr);
     });
 
     socket.on('_exist_in_dataBase', (result) => {
@@ -61,7 +71,7 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
 
       socket.off('_exist_in_dataBase');
     };
-  }, [socket, SERVER_URL]);
+  }, [socket]);
 
   const handleSubmit = () => {
     socket.emit('_image_update', {
@@ -156,6 +166,15 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
                 className=' cursor-move w-80 !select-none top-50 left-50 z-30'
               />
               <canvas id='c1' className='' ref={c1}></canvas>
+              <div className='mt-5 flex flex-col gap-2'>
+                <p>Set Chroma Key {`[tolerance]`}</p>
+                <input
+                  type='number'
+                  value={tolerance}
+                  onChange={(e) => setTolerance(e.target.value)}
+                />
+                {/* <ColorControllor videoUtils={videoUtils} /> */}
+              </div>
             </div>
           </div>
 

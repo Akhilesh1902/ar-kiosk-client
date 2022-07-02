@@ -1,8 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 
 const ImageGrid = ({ setImage, socket, allImg, image, setVid, SERVER_URL }) => {
-  // console.log(allImg);
-
   const [curData, setCurData] = useState([]);
   // let object;
 
