@@ -165,7 +165,7 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
                 loop
                 className=' cursor-move w-80 !select-none top-50 left-50 z-30'
               />
-              <canvas id='c1' className='' ref={c1}></canvas>
+              <canvas id='c1' className='hidden' ref={c1}></canvas>
               <div className='mt-5 flex flex-col gap-2'>
                 <p>Set Chroma Key {`[tolerance]`}</p>
                 <input

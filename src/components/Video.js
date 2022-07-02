@@ -46,7 +46,7 @@ const Video = ({ video, SERVER_URL }) => {
         autoPlay
         loop
         ref={video_ref}
-        className='!h-screen '></video>
+        className='!w-screen '></video>
     </>
   );
 };
