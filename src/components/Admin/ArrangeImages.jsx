@@ -35,7 +35,7 @@ const ArrangeImages = ({ socket, SERVER_URL }) => {
             <div key={i} className='w-24 mr-1 h-24'>
               <img
                 className='w-24 h-full object-cover object-top rounded border border-dark'
-                src={`${SERVER_URL}${data.url}`}
+                src={`data:image/jpeg;base64,` + data.thumb}
                 alt=''
                 onClick={handleImageClick}
               />

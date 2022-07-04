@@ -6,10 +6,16 @@ import Video from '../components/Video';
 const Kiosk = ({ socket, SERVER_URL }) => {
   const userVid = useRef();
 
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState({});
   const [vid, setVid] = useState(false);
+  const App = useRef();
 
   // console.log(image);
+
+  useEffect(() => {
+    const a = App.current;
+    a.style.backgroundImage = `url(logo2.png)`;
+  }, []);
 
   useEffect(() => {
     if (!vid) {
@@ -39,7 +45,9 @@ const Kiosk = ({ socket, SERVER_URL }) => {
   if (!socket) return null;
 
   return (
-    <div className='App overflow-hidden relative grid bg-dark  place-items-center'>
+    <div
+      ref={App}
+      className='App overflow-hidden relative grid bg-dark  place-items-center'>
       <div
         className='videoContainer z-10 relative w-screen h-screen items-center flex'
         style={{ background: 'none' }}>

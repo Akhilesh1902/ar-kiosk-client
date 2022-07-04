@@ -20,8 +20,9 @@ const DeleteImagePanel = ({ socket, SERVER_URL }) => {
     setModal(false);
   };
 
-  socket.on('_image_update', () => {
+  socket.off('_image_update').on('_image_update', () => {
     reloadImgArr();
+    console.log(imgArr);
   });
 
   return (
@@ -34,8 +35,8 @@ const DeleteImagePanel = ({ socket, SERVER_URL }) => {
               <img
                 ref={imageRef}
                 className='w-24 h-full  object-cover object-top rounded border border-dark'
-                src={`${SERVER_URL}${data.url}`}
-                alt=''
+                src={`data:image/jpeg;base64,` + data.thumb}
+                alt={data.name}
                 onClick={() => {
                   setModal(true);
                 }}

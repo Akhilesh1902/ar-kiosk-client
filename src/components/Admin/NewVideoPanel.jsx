@@ -104,7 +104,7 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
           <div className='flex w-full justify-between gap-3'>
             <div className='flex  flex-col gap-3'>
               <div>
-                <p>Add in thumbnail</p>
+                <p>Add Thumbnail</p>
                 <div className='flex'>
                   <div
                     ref={thumbRef}
@@ -113,14 +113,14 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
                     ref={thumb_input_ref}
                     type='file'
                     id='thumbnail-input'
-                    accept='image/jpeg, image/png,image/jpg,.mp4'
+                    accept='image/jpeg, image/png,image/jpg'
                     required
                     onChange={onFileCange}
                   />
                 </div>
               </div>
               <div className='flex  flex-col'>
-                <p>Add in image</p>
+                <p>Add Video</p>
                 <input
                   ref={video_imput_ref}
                   type='file'
@@ -141,18 +141,11 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
                     preload='auto'
                     ref={userCam}
                     className=' h-full w-full absolute object-cover z-20'></video>
-                  {/* <video
-                    ref={userVid}
-                    autoPlay
-                    playsInline
-                    className=' cursor-move absolute !select-none top-50 left-50 z-30'
-                  /> */}
                   <DraggablePreview
                     imgData={videoData}
                     setImgData={setVideoData}
                     c2={c2}
                   />
-                  {/* <canvas id='c2' ref={c2}></canvas> */}
                 </div>
               </div>
             </div>
@@ -185,6 +178,7 @@ const NewVideoPanel = ({ socket, SERVER_URL }) => {
         {modal && (
           <Modal
             type='addition'
+            file='video'
             setModal={setModal}
             handleSubmit={handleSubmit}
           />

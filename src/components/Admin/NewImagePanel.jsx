@@ -96,7 +96,7 @@ const NewImagePanel = ({ socket, SERVER_URL }) => {
           <div className='flex w-full justify-between gap-3'>
             <div className='flex  flex-col gap-3'>
               <div>
-                <p>Add in thumbnail</p>
+                <p>Add Thumbnail</p>
                 <div className='flex'>
                   <div
                     ref={thumbRef}
@@ -112,7 +112,7 @@ const NewImagePanel = ({ socket, SERVER_URL }) => {
                 </div>
               </div>
               <div className='flex flex-col'>
-                <p>Add in image</p>
+                <p>Add Image</p>
                 <input
                   ref={image_input_ref}
                   type='file'
@@ -152,6 +152,7 @@ const NewImagePanel = ({ socket, SERVER_URL }) => {
         {modal && (
           <Modal
             type='addition'
+            file='image'
             setModal={setModal}
             handleSubmit={handleSubmit}
           />

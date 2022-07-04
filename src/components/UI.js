@@ -4,6 +4,7 @@ import html2canvas from 'html2canvas';
 import EmailModal from './UI/EmailModal';
 import ImageGrid from './UI/ImageGrid';
 import { useGetImageArray } from './utils/utils';
+import { Circles } from 'react-loader-spinner';
 
 const UI = (props) => {
   // const [userInput, setUserInput] = useState('');
@@ -19,7 +20,7 @@ const UI = (props) => {
   let capTimeOut;
 
   useEffect(() => {
-    socket.on('email_success', () => {
+    socket.off('email_success').on('email_success', () => {
       console.log('email sent Succussfully');
       alert('Email sent successfully');
     });
@@ -27,10 +28,6 @@ const UI = (props) => {
     socket.on('_email_error', () => {
       console.log('an error has occured in email');
     });
-
-    return () => {
-      socket.off('email_success');
-    };
   });
 
   const handleCapture = async () => {
@@ -85,7 +82,7 @@ const UI = (props) => {
     <div
       id='uiContainer'
       className={`uiContainer  flex flex-col absolute h-4/5 justify-center items-center w-1/2  rounded pb-4 ${
-        vid ? '!bg-transparent ' : 'z-20 glas '
+        vid ? '!bg-transparent ' : 'z-20 glass '
       }`}>
       {modal ? (
         <EmailModal
@@ -106,15 +103,20 @@ const UI = (props) => {
           <h1 className='kiosk-heading font-bold text-accent self-start '>
             Select a Photo To Interact
           </h1>
-          <ImageGrid
-            setVid={setVid}
-            // allImages={allImages}
-            socket={socket}
-            allImg={allImg}
-            SERVER_URL={SERVER_URL}
-            setImage={setImage}
-            image={image}
-          />
+          {!allImg.length ? (
+            <div className='mt-10 h-full grid items-center'>
+              <Circles color='#EFC041' />
+            </div>
+          ) : (
+            <ImageGrid
+              setVid={setVid}
+              socket={socket}
+              allImg={allImg}
+              SERVER_URL={SERVER_URL}
+              setImage={setImage}
+              image={image}
+            />
+          )}
         </div>
       ) : null}
       <div
@@ -143,7 +145,7 @@ const UI = (props) => {
           <button
             className='flex  flex-col  items-center gap-0'
             onClick={() => {
-              setImage('');
+              setImage({});
               setVid(!vid);
             }}>
             <AiFillVideoCamera className='text-3xl text-mid' />
