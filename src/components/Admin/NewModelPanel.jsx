@@ -1,11 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
 import Modal from './Modal';
 import CanvasWrapper from '../../ThreeJS/CanvasWrapper';
-// import { useModelStore } from '../../../../../TutAR-WebApp/client/src/Store/modelStore';
 import { useModelStore } from '../../Store/ModelStore';
-import DropDown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import { AllClasses, AllSubjects } from './constants';
 
 const NewModel = ({ socket }) => {
   const setCurentModelUrl = useModelStore((state) => state.setCurentModelUrl);
@@ -49,12 +46,7 @@ const NewModel = ({ socket }) => {
       thumb: null,
       file: null,
       name: '',
-      DisplayName: '',
-      Class: '',
-      Subject: '',
-      Topic: '',
       animations: [],
-      material: null,
       scale: 1,
     });
     setModelProps({
@@ -157,39 +149,6 @@ const NewModel = ({ socket }) => {
             <div className='flex w-1/3 flex-col'>
               <h1>Add Additional Data</h1>
               <div className=' flex flex-col gap-2'>
-                <div className=' flex flex-col gap-1'>
-                  <p>Class :</p>
-                  <DropDown
-                    options={AllClasses}
-                    onChange={(e) => {
-                      console.log(e);
-                      setModelData({ ...modelData, Class: e.value });
-                    }}
-                    placeholder='Select Classes'
-                  />
-                </div>
-                <div className=' flex flex-col gap-1'>
-                  <p>Subject :</p>
-                  <DropDown
-                    options={AllSubjects}
-                    onChange={(e) => {
-                      setModelData({ ...modelData, Subject: e.value });
-                    }}
-                    placeholder='Select Classes'
-                  />
-                </div>
-                <div className=' flex flex-col gap-1'>
-                  <p>Topic :</p>
-                  <input
-                    type='text'
-                    required
-                    value={modelData.Topic}
-                    onChange={(e) => {
-                      setModelData({ ...modelData, Topic: e.target.value });
-                    }}
-                    className='rounded text-dark px-2 py-1 outline-0'
-                  />
-                </div>
                 <div className=' flex flex-col gap-1'>
                   <p>Model Name :</p>
                   <input
