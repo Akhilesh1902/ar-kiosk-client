@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Images from '../components/Images';
 import UI from '../components/UI';
 import Video from '../components/Video';
+import CanvasWrapper from '../ThreeJS/CanvasWrapper';
 
 const Kiosk = ({ socket, SERVER_URL }) => {
   const userVid = useRef();
@@ -9,7 +10,9 @@ const Kiosk = ({ socket, SERVER_URL }) => {
   const [image, setImage] = useState(null);
   const [vid, setVid] = useState(false);
 
-  console.log(image);
+  useEffect(() => {
+    console.log({ image });
+  }, [image]);
 
   useEffect(() => {
     if (!vid) {
@@ -51,12 +54,13 @@ const Kiosk = ({ socket, SERVER_URL }) => {
           playsInline
           className='h-screen w-screen absolute object-cover'></video>
 
-        {image?.type === 'video' && (
+        {image?.type?.includes('video') && (
           <Video video={image} SERVER_URL={SERVER_URL} />
         )}
-        {image?.type === 'image' && (
+        {image?.type?.includes('image') && (
           <Images image={image} SERVER_URL={SERVER_URL} />
         )}
+        {image?.type === 'model' && <CanvasWrapper />}
       </div>
       <UI
         socket={socket}

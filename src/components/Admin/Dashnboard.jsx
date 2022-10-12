@@ -4,6 +4,7 @@ import ArrangeImages from './ArrangeImages';
 import DeleteImagePanel from './DeleteImagePanel';
 // import Modal from './Modal';
 import NewImagePanel from './NewImagePanel';
+import NewModel from './NewModelPanel';
 import NewVideoPanel from './NewVideoPanel';
 
 const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
@@ -34,6 +35,9 @@ const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
           <NavLink to={'/admin/newvideo'} className='text-accent'>
             Insert New Video
           </NavLink>
+          <NavLink to={'/admin/newModel'} className='text-accent'>
+            Add New Model
+          </NavLink>
           <NavLink to={'/admin/deleteimage'} className='text-accent'>
             Delete Image
           </NavLink>
@@ -54,6 +58,10 @@ const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
 
           {subpath === 'newvideo' && (
             <NewVideoPanel SERVER_URL={SERVER_URL} socket={socket} />
+          )}
+
+          {subpath === 'newModel' && (
+            <NewModel SERVER_URL={SERVER_URL} socket={socket} />
           )}
           {subpath === undefined && (
             <>

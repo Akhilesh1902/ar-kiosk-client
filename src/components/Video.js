@@ -11,7 +11,9 @@ const Video = ({ video, SERVER_URL }) => {
 
   useEffect(() => {
     video_ref.current.crossOrigin = 'anonymous';
-    video_ref.current.src = `${SERVER_URL}${video.url}`;
+
+    video_ref.current.src = video.url;
+    // video_ref.current.src = `${SERVER_URL}${video.url}`;
     // eslint-disable-next-line
   }, [SERVER_URL]);
 
