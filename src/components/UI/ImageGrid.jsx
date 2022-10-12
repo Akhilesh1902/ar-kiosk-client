@@ -11,6 +11,7 @@ const ImageGrid = ({ setImage, allImg, image, setVid, SERVER_URL }) => {
     );
     if (curData.type === 'model') {
       console.log('fetching model');
+      alert('Fetching model please wait.');
       const resp = await fetch(`${SERVER_URL}/model/${curData.name}`);
       const data = await resp.json();
       console.log({ data });
