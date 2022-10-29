@@ -1,50 +1,38 @@
 import { useModelStore } from '../../Store/ModelStore';
+import { useState } from 'react';
 
 const ImageGrid = ({ setImage, allImg, image, setVid, SERVER_URL }) => {
   const setCurentModelUrl = useModelStore((state) => state.setCurentModelUrl);
+  const [loadingImage, setLoadingImage] = useState(false);
+  const blobUrlMaker = (data) => {
+    const arrbuff = new Uint8Array(data);
+    const blob = new Blob([arrbuff]);
+    const urlCreator = window.URL || window.webkitURL;
+    const url = urlCreator.createObjectURL(blob);
+    return url;
+  };
 
-  console.log(allImg);
   const imageClick = async (e) => {
-    console.log(e.target.getAttribute('data-name'));
+    setLoadingImage(true);
     const curData = allImg.find(
       (item) => item.name === e.target.getAttribute('data-name')
     );
     if (curData.type === 'model') {
-      console.log('fetching model');
-      alert('Fetching model please wait.');
       const resp = await fetch(`${SERVER_URL}/model/${curData.name}`);
       const data = await resp.json();
-      console.log({ data });
-
-      const arrbuff = new Uint8Array(data.model.data);
-      const blob = new Blob([arrbuff]);
-      const urlCreator = window.URL || window.webkitURL;
-      const url = urlCreator.createObjectURL(blob);
-      console.log(url);
+      const url = blobUrlMaker(data.model.data);
       setCurentModelUrl(url);
       setImage(curData);
-
-      console.log(data);
     } else {
       const resp = await fetch(`${SERVER_URL}/file/${curData.name}`);
       const data = await resp.json();
-      console.log(data);
-      console.log({ curData });
-      const arrbuff = new Uint8Array(data.model.data);
-      const blob = new Blob([arrbuff]);
-      const urlCreator = window.URL || window.webkitURL;
-      const url = urlCreator.createObjectURL(blob);
+      const url = blobUrlMaker(data.model.data);
       setImage({ ...curData, url: url });
     }
-    // const curImg = document.querySelector('#image');
-    // const curImgData = allImg.find(
-    //   (data) => data.thumbnailUrl === `/static${i.split('static')[1]}`
-    // );
-
-    // console.log(curImgData);
-    // setImage(curData);
+    setLoadingImage(false);
     setVid(true);
   };
+  if (loadingImage) return <p>Loading your selected image or model</p>;
   return (
     <div className='allImageGrid h-1/2 md:h-full overflow-y-scroll w-full flex justify-center content-start gap-2 flex-wrap p-5 mt-2  '>
       {allImg.map((item, i) => (

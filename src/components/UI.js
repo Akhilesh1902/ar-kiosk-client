@@ -14,7 +14,7 @@ const UI = (props) => {
   const [pCanvas, setPCanvas] = useState(false);
   const [modal, setModal] = useState(false);
   const [capturing, setCapturing] = useState(false);
-  const [allImg] = useGetImageArray(SERVER_URL, socket);
+  const [allImg, loading, error] = useGetImageArray(SERVER_URL, socket);
 
   let capTimeOut;
 
@@ -106,14 +106,20 @@ const UI = (props) => {
           <h1 className='kiosk-heading font-bold text-accent self-start '>
             Select a Photo To Interact
           </h1>
-          <ImageGrid
-            setVid={setVid}
-            // allImages={allImages}
-            allImg={allImg}
-            SERVER_URL={SERVER_URL}
-            setImage={setImage}
-            image={image}
-          />
+          {error ? (
+            <p>Error while fetching data</p>
+          ) : loading ? (
+            <p>loading</p>
+          ) : (
+            <ImageGrid
+              setVid={setVid}
+              // allImages={allImages}
+              allImg={allImg}
+              SERVER_URL={SERVER_URL}
+              setImage={setImage}
+              image={image}
+            />
+          )}
         </div>
       ) : null}
       <div
