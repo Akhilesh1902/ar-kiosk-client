@@ -25,7 +25,7 @@ const Dashnboard = ({ socket, SERVER_URL, setLogin }) => {
         </button>
       </nav>
       <div className='flex gap-2 h-full'>
-        <section className='text-accent left-section bg-purple py-4 text-text h-full font-bold w-1/5 flex flex-col gap-4 items-center justify-start '>
+        <section className='left-section bg-purple py-4 text-text h-full font-bold w-1/5 flex flex-col gap-4 items-center justify-start '>
           <NavLink to={'/admin'} className='!text-accent mb-4'>
             Dash
           </NavLink>
